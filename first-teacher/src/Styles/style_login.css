@@ -1,0 +1,173 @@
+#reg{
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 6px rgb(181, 180, 180),
+    inset 0 0 10px rgb(210, 209, 209);
+
+    border: 5rem black;
+}
+
+
+
+
+body {
+   background-color:#FFCD29;
+   background-image: url(../images/diagonal-striped-brick.png)}
+
+#sign-in-herotext{
+    text-shadow: 2px 1px 0 #ffcd297e,
+                 2px 2px 0 #ffcd297e,
+                 2px 3px 0 #ffcd297e;
+}
+              
+
+#sign-in{
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #000000;
+  box-shadow: 3px 3px 0 rgb(56, 56, 56);
+  transition: background-color 1s;
+}
+
+#sign-in:hover {
+    background-color: #FFCD29;
+    border: 1px #999898;
+    color: #ffffff;
+    transform: translateY(0.25em);
+    box-shadow: 3px 3px 0 rgb(56, 56, 56);
+}
+  
+
+  #sign-in:focus {
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+    background-color: #FFCD29;
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: green;
+    border-color: #000000;
+ }
+ 
+#email, #password{
+    background-color: #ffcd293a;
+    box-shadow: none;
+    outline: none;
+  }
+
+  #rememberMe:focus, #email:focus, #password:focus{
+    border-color: #000000;
+    box-shadow: none;
+    outline: none;
+  }
+
+  #rememberMe{
+    float: right;
+  }
+
+
+  #createAcc{
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+  }
+
+
+
+  @media (max-width: 800px){
+ 
+    .form-outline, .form-check-label, #sign-in, span{
+        font-size: small ;
+    }
+}
+
+  /* sign Up Styles */
+
+  #sign-up-herotext{
+    text-shadow: 2px 1px 0 #ffcd297e,
+    2px 2px 0 #ffcd297e,
+    2px 3px 0 #ffcd297e;
+  }
+  
+  
+   input[type="checkbox"]:checked{
+      background-color: green;
+      border-color: #000000;
+   }
+   
+  #email, #password, #username, #userType, #school{
+      background-color: #ffcd293a;
+      box-shadow: none;
+      outline: none;
+    }
+  
+    input[type="file"]:focus, #rememberMe:focus, #email:focus, #password:focus, #username:focus, #userType:focus, #school:focus, #gender:focus {
+      border-color: #000000;
+      box-shadow: none;
+      outline: none;
+    }
+  
+    #rememberMe, #male, #female{
+      float: right;
+    }
+  
+    #sign-up{
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #000000;
+      box-shadow: 3px 3px 0 rgb(56, 56, 56);
+      transition: background-color 1s;
+    }
+  
+    #female:focus, #male:focus, #showPass:focus {
+      border-color: black;
+      box-shadow: none;
+      outline: none;
+
+    }
+  
+    #sign-up:hover {
+      background-color: #FFCD29;
+      border: 1px #999898;
+      color: #ffffff;
+      transform: translateY(0.25em);
+      box-shadow: 3px 3px 0 rgb(56, 56, 56);
+    }
+  
+    input[type="radio"]:checked {
+      background-color: green;
+      border-color: #000000;
+   }
+  
+  
+  
+  
+    @media (max-width: 800px){
+  
+      .form-outline, .form-check-label, #userType, #sign-up, span{
+          font-size: small ;
+      }
+      #username, #password, #email, #school, #userType, #gender, #formFile {
+        font-size: 10px;
+      }
+     
+  }
+  
+
+  .swal2-popup{
+    color: #000000;
+  }
+.swal2-popup .swal2-styled.swal2-confirm {
+	background-color: #ffffff ;
+}
+.swal2-popup .swal2-styled:focus {
+	background-color: #FFCD29;
+  border-color: #FFCD29;
+  box-shadow: none !important;
+  outline: none ;
+}
+
+.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled:hover {
+	background-color: #000000;
+}
+

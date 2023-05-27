@@ -1,0 +1,31 @@
+#sidebarMenu{
+    background-color: #FFCD29;
+}
+
+
+#dashboardLink, #ordersLink, #teachersLink,
+#lessonPlanLink{
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+
+#dashboardLink:hover, #ordersLink:hover, #teachersLink:hover,
+#lessonPlanLink:hover{
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+#dashboardLink:focus, #ordersLink:focus, #teachersLink:focus,
+#lessonPlanLink:focus{
+    background-color: black;
+    color: white;
+}
+
+#h-menu{
+    border: none;
+}
+
+#h-menu:focus{
+    box-shadow: none;
+    outline: none;
+}

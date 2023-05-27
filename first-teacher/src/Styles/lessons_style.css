@@ -1,0 +1,106 @@
+#usernameProf {
+    color: #000000;
+    align-self: flex-end;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+#prof{
+    background-color: white;
+}
+
+#prof:focus{
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+}
+
+#form-container{
+    background-color: #FDF5CA;
+}
+
+
+
+#lesson-hero{
+   background-image: url(../images/plan.jpg); 
+   background-color: rgba(0, 0, 0, 0.6);
+   background-blend-mode: multiply;
+   background-position:  center center;
+   background-size: cover; 
+   height: 80vh;
+}
+
+#lesson-hero-main{
+    text-shadow:  0 1px 0 black,
+                  0 2px 0 black;
+}
+
+
+#lesson-hero-text{
+   color: #FFCD29;
+   text-shadow: 0 1px 1px rgb(0, 0, 0);
+   font-weight: 800;
+}
+
+
+
+#form-container{
+    box-shadow: 0 0 20px rgb(231, 223, 223);
+}
+
+
+input[type="text"]:focus, #studyYear:focus, #Class:focus, #materialLevel:focus, input[type="date"]:focus, input[type="number"]:focus, #tq-tool:focus
+, #tq:focus, #strategies:focus, #tools:focus, #tqTool:focus{  
+    border-color: #000000;
+    box-shadow: none;
+    outline: none;
+    
+}
+
+
+input[type="text"]:focus::placeholder, input[type="number"]:focus::placeholder{
+    color: transparent;
+}
+
+input, select{
+    font-size: smaller;
+    box-shadow: inset 0 1px 1px black; 
+}
+
+
+
+
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #000000;
+  }
+
+  
+
+@media (max-width: 800px){
+ *{
+    font-size: small;
+
+ }
+}
+
+tbody, td, th, thead, tr {
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+}
+
+thead {
+    background-color: #000000;
+}
