@@ -30,7 +30,7 @@ const Header = () => {
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid align-items-end">
             <Link to="/" className="navbar-brand" id="logo">
-              <img src={logo} width={200} alt="" />
+              <img src={logo} width={200} alt="" id="logoImg"/>
             </Link>
 
             <form className="d-flex justify-content-center " role="search">

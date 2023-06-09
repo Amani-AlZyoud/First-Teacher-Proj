@@ -276,7 +276,7 @@ const SignUp = ({setSignUp}) => {
               <label className="form-label d-block fw-bold">المسمى الوظيفي</label>
               <select className="form-select" name="userType" id="userType" onChange={(event) => {setJop(event.target.value) 
               setErrorMsgJ("")}}>
-                <option value="none" selected>اختر</option>
+                <option value="none">اختر</option>
                 <option value="teacher">معلم/ة</option>
                 <option value="headmaster">مدير/ة</option>
               </select>

@@ -22,9 +22,9 @@ const Footer = () => {
       </HashLink>
     </li>
     <li className="nav-item">
-      { auth ? <HashLink smooth to='/plan#' className="nav-link px-2" id="footer-link">
+      { auth ? <HashLink smooth to='/login#' className="nav-link px-2" id="footer-link">
         نموذج خطة الدرس
-      </HashLink> : <HashLink to='login#' className="nav-link px-2" id="footer-link">
+      </HashLink> : <HashLink to='plan/1#' className="nav-link px-2" id="footer-link">
         نموذج خطة الدرس
       </HashLink>
       }

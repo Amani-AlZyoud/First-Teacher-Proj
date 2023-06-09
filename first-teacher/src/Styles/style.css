@@ -151,7 +151,7 @@ body{
   text-decoration: none;
   color: #ffffff;
   background-color: #FFCD29;
-  box-shadow: 3px 3px 0 rgb(56, 56, 56);
+  box-shadow: 3px 3px 0 rgb(101, 101, 101);
   transition: background-color 0.5s;
 }
 
@@ -159,7 +159,7 @@ body{
   text-decoration: none;
   color: #ffffff;
   background-color: #000000;
-  box-shadow: 3px 3px 0 rgb(56, 56, 56);
+  box-shadow: 3px 3px 0 rgb(86, 85, 85);
   transition: background-color 1s;
 }
 
@@ -167,7 +167,7 @@ body{
   text-decoration: none;
   color: #ffffff;
   background-color: black;
-  box-shadow: 3px 3px 0 rgb(56, 56, 56);
+  box-shadow: 3px 3px 0 rgb(101, 101, 101);
   transition: background-color 0.5s;
 
 }
@@ -211,7 +211,6 @@ body{
 
 @media (max-width: 775px) {
 .bg-image{
-  margin: 0;
 }
 
 #hero-main span{
@@ -219,18 +218,29 @@ font-size: 30px;
 }
 
 #hero-content span{
-  font-size: 29px;
+  font-size: 20px;
 }
 
+  #logoImg{
+    max-width: 120px;
+  }
 
-  #loginBtn,
+  #card-ele{
+    margin: auto;
+    width: auto;
+  }
+
   #searchBtn {
-    max-width: 60px;
+    max-width: 100px;
+    font-size: 10px;
+  }
+  #loginBtn{
+    max-width: 100px;
     font-size: 10px;
   }
 
   #searchBar {
-    max-width: 100px;
+    max-width: 200px;
     font-size: 10px;
   }
 
@@ -390,8 +400,6 @@ input[type="text"]:focus, input[type="email"]:focus, #state:focus, #country:focu
   background-image: url(../images/vichy.png);
   color: rgb(0, 0, 0);
 }
-
-
 
 
 #instructions li{

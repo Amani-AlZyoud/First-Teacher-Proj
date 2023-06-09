@@ -8,7 +8,7 @@ const Shop = () => {
     
 <section className="outter">
 <section className="video-container">
-  <video src={video} autoPlay={true} loop={true} playsinline={true} muted={true}/>
+  <video src={video} autoPlay={true} loop={true} playsInline={true} muted={true}/>
   <div className="callout">
   <h1 className="display-2 fw-bold text-dark">متجر المعلم</h1>
     <div className="lead fw-normal text-warning ">كل ما يحتاجه المعلم وأكثر</div>
