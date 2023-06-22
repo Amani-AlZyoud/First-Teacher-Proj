@@ -2889,3 +2889,5 @@
 20230622	12:17:49	1ca2d235-d46d-46e9-ada8-573d53ca0906	GET	http://localhost:3000	/users/145
 20230622	12:18:01	a682d778-3bef-4ad2-956a-f9b1f4a3aaa5	OPTIONS	http://localhost:3000	/auth
 20230622	12:18:01	4ee06704-31e1-4dfc-82d9-c82c7cfa6293	POST	http://localhost:3000	/auth
+20230622	12:26:11	c6e8acb9-b2ec-4dde-a8ce-e7a204757521	OPTIONS	http://localhost:3000	/auth
+20230622	12:26:11	6ff864a5-5eaa-4f57-a196-85b329804837	POST	http://localhost:3000	/auth
