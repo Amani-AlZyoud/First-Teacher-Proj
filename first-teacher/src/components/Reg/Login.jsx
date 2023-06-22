@@ -3,27 +3,23 @@ import "../../Styles/style_login.css";
 import { HashLink } from "react-router-hash-link";
 import FadeIn from "react-fade-in/lib/FadeIn";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
 
 const Login = ({ setSignUp }) => {
   const navigate = useNavigate("/");
-  const { setAuth } = useContext(AuthContext);
-  const { user, setUser, userRefresh } = useContext(UserContext);
+  const { user, setUser, forceUpdate } = useContext(UserContext);
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [ErrorMsg, setErrorMsg] = useState("");
+  let done = true;
 
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
+  useEffect(() => {}, [done]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let done = true;
 
     if (Email === "") {
       done = false;
@@ -38,7 +34,7 @@ const Login = ({ setSignUp }) => {
         .post("http://localhost:5500/auth", {
           email: Email,
           password: Password,
-    })
+        })
         .then(async (response) => {
           if (response.data?.Invalid) {
             done = false;
@@ -46,16 +42,14 @@ const Login = ({ setSignUp }) => {
           }
 
           if (response.data?.success) {
-            console.log(response.data.success);
             setUser(response.data.success.user);
-            userRefresh()
-            console.log(user);
-            localStorage.setItem('token', response.data.success.token);
-            localStorage.setItem('id', response.data.success.user.user_id);
-            done = true;
+            forceUpdate();
+            localStorage.setItem("token", response.data.success.token);
+            localStorage.setItem("id", response.data.success.user.user_id);
+            done = false;
           }
 
-          if(response.data?.Error){
+          if (response.data?.Error) {
             console.log(response.data.Error);
             done = false;
           }
@@ -65,56 +59,18 @@ const Login = ({ setSignUp }) => {
           done = false;
         });
 
-        if(done) {
-          setAuth(true);
+      if (done) {
+   
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "أهلاً وسهلاً بك",
+            showConfirmButton: false,
+            iconColor: '#FFCD29',
+            timer: 1500,
+          });
           
-
-      if (user?.role_id === "2" && user?.gender === "Male")
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'أهلاً وسهلاً بك عزيزي المعلم',
-        showConfirmButton: false,
-        timer: 1500
-      })
-
-      if (user?.role_id === "2" && user?.gender === "Female")
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'أهلاً وسهلاً بك عزيزتي المعلمة',
-        showConfirmButton: false,
-        timer: 1500
-      })
-       
-      if (user?.role_id === "3" && user?.gender === "Female")
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'أهلاً وسهلاً عزيزتي المديرة',
-        showConfirmButton: false,
-        timer: 1500
-      })
-       
-      if (user?.role_id === "3" && user?.gender === "Male")
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'أهلاً وسهلاً عزيزي المدير',
-        showConfirmButton: false,
-        timer: 1500
-      })
-        
-      if (user?.role_id === "1") {
-        navigate(`/profile/${user?.user_id}`);
-      } else {
-        navigate('/');
       }
-      setErrorMsg("");
-      setEmail("");
-      setPassword("");
-    
-    }
     }
   };
 
@@ -143,6 +99,7 @@ const Login = ({ setSignUp }) => {
                 {/* Email input */}
                 <div className="form-outline my-4">
                   <label className="form-label fw-bold" htmlFor="email">
+                    <span className="text-danger">*</span>
                     البريد الإلكتروني
                   </label>
                   <input
@@ -161,12 +118,14 @@ const Login = ({ setSignUp }) => {
                 {/* Password input */}
                 <div className="form-outline mb-3">
                   <label className="form-label fw-bold" htmlFor="password">
+                    <span className="text-danger">*</span>
                     كلمة المرور
                   </label>
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
                     className="form-control form-control-lg"
+                    autoComplete="true"
                     placeholder=""
                     value={Password}
                     onChange={(event) => {

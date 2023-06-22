@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import '../Styles/style.css'
-import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
+import { UserContext } from '../contexts/UserContext';
 const Footer = () => {
-  const [auth, setAuth] = useState(false);
+
+
+  const {auth, setAuth}= useContext(UserContext);
+
+
   return (
     <footer className="py-3 bg-white" id="footerEdit">
   <ul className="nav justify-content-center border-bottom pb-3 ">

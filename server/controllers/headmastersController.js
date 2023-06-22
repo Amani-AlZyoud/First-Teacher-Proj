@@ -71,7 +71,7 @@ const getHeadmaster = async (req, res) => {
     if (!id) return res.status(400).json({ 'message': 'Headmaster ID required.' });
 
     const headmaster = await pool.query("SELECT * FROM users WHERE user_id = $1 AND role_id = '3' AND active = '1'", [id]);
-    console.log(headmaster.rows)
+
     if (headmaster.rows.length == 0) {
         return res.json({ "message": `No headmaster matches ID ${id}.` });
     }

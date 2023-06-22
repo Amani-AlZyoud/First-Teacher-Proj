@@ -1,18 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "../Styles/style.css";
 import logo from "../images/logo.png";
 import profile from "../images/teacher.png";
 import { HashLink } from "react-router-hash-link";
-import { AuthContext } from "../contexts/AuthContext";
 import { UserContext } from "../contexts/UserContext";
 
 const Header = () => {
-  const { auth, setAuth } = useContext(AuthContext);
-  const { user, setUser } = useContext(UserContext);
-
-
-
+  const { user, setUser, auth, setAuth } = useContext(UserContext);
 
   return (
     <>
@@ -27,8 +22,6 @@ const Header = () => {
             <form className="d-flex justify-content-center " role="search">
               {auth ? (
                 <div className="dropdown text-end">
-                { user?.role_id !== "1" &&
-                 <>
                   <a
                     href="#"
                     className="d-block link-dark text-decoration-none dropdown-toggle"
@@ -37,9 +30,9 @@ const Header = () => {
                   >
                     <img
                       src={user?.user_img ? user.user_img : profile}
-                      alt="mdo"
-                      width="32"
-                      height="32"
+                      alt="profile"
+                      width="40"
+                      height="40"
                       className="rounded-circle"
                     />
                   </a>
@@ -73,7 +66,7 @@ const Header = () => {
                         to="/"
                         onClick={() => {
                           setUser({});
-                          setAuth(false);
+                          setAuth(false)
                           localStorage.clear();
                         }}
                         className="dropdown-item text-end"
@@ -100,7 +93,7 @@ const Header = () => {
                       </Link>
                     </li>
                   </ul>
-                 </>}
+             
                 </div>
               ) : (
                 <></>

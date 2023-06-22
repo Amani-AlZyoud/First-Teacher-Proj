@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext} from 'react'
 import '../../Styles/style.css'
 import { HashLink } from 'react-router-hash-link';
-import { AuthContext } from '../../contexts/AuthContext';
+import { UserContext } from '../../contexts/UserContext';
 
 
 const Hero = () => {
-  const {auth} = useContext(AuthContext);
+  const {auth, user} = useContext(UserContext);
   return (
     <>
     {/* HERO SECTION */}
@@ -32,7 +32,15 @@ const Hero = () => {
             </h1>
             <p />
             <div className="d-grid gap-2 d-md-flex justify-content-md-start ms-2">
-            { auth ? <></> :  <HashLink smooth to='/login#'>
+            { auth ? <HashLink smooth to={`/profile/${user?.user_id}`}>
+              <button
+                  type="button"
+                  className="btn btn-dark btn-lg px-4 gap-3"
+                  id="heroBtn"
+                >
+                  صفحتي
+                </button> 
+              </HashLink> :  <HashLink smooth to='/login#'>
               <button
                   type="button"
                   className="btn btn-dark btn-lg px-4 gap-3"

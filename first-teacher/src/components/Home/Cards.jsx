@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import exr from '../../images/exr.png'
 import plan from '../../images/plan.png'
 import exam from '../../images/exam.png'
@@ -7,7 +7,8 @@ import '../../Styles/style.css'
 import { HashLink } from 'react-router-hash-link'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { AuthContext } from '../../contexts/AuthContext'
+import { UserContext } from '../../contexts/UserContext'
+
 
 
 const Cards = () => {
@@ -16,7 +17,7 @@ const Cards = () => {
   }, [])
 
 
-  const {auth, setAuth} = useContext(AuthContext);
+  const {auth, setAuth} = useContext(UserContext);
   return (
     <>
 

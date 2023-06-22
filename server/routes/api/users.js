@@ -9,6 +9,7 @@ router.route('/')
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
 
 router.route('/:id')
-    .get(usersController.getUser);
+    .get(usersController.getUser)
+    .post(usersController.updateUser);
 
 module.exports = router;

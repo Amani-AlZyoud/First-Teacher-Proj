@@ -6,8 +6,6 @@ const handleNewUser = async (req, res) => {
 
     const { username, email, password, school_name, gender, user_img, role_id  } = req.body;
 
-    console.log(typeof role_id)
-
     // check for duplicate emails in the db
     const sql = "SELECT email FROM users where email = $1 AND active = '1'";
     const duplicate = await pool.query(sql, [email]);
@@ -31,7 +29,6 @@ const handleNewUser = async (req, res) => {
 
         //encrypt the password
         const hashedPwd = await bcrypt.hash(password, 10);
-        console.log(hashedPwd);
         //create and store the new user
         const sql2 = "INSERT INTO users (username, email, password, school_name, gender, user_img, role_id, active) VALUES($1, $2, $3 , $4 , $5, $6, $7, $8) RETURNING *";
         const result = await pool.query(sql2, [username, email, hashedPwd, school_name, gender, user_img, role_id, 1]);

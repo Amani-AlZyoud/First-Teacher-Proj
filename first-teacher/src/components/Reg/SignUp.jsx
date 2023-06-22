@@ -3,7 +3,6 @@ import "../../Styles/style_login.css";
 import { HashLink } from "react-router-hash-link";
 import FadeIn from "react-fade-in/lib/FadeIn";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
@@ -28,8 +27,7 @@ const SignUp = ({ setSignUp }) => {
   };
 
   const navigate = useNavigate("/");
-  const { setAuth } = useContext(AuthContext);
-  const { setUser, userRefresh } = useContext(UserContext);
+  const { setUser, setAuth, forceUpdate  } = useContext(UserContext);
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -95,70 +93,70 @@ const SignUp = ({ setSignUp }) => {
       done = false;
     }
 
-    if (jop === "") {
+    if (role_id === 0) {
       setErrorMsgJ("يرجى اختيار المسمى الوظيفي.");
       done = false;
     }
 
-
     if (done) {
-      if (jop === "teacher") {
-        setRole_id(2);
-      } else if (jop === "headmaster") {
-        setRole_id(3);
-      }
-
-      axios
-        .post("http://localhost:5500/register", {
-          username: UserName,
-          email: Email,
-          password: Password,
-          school_name: school,
-          gender: Gender,
-          user_img: UserImg,
-          role_id: role_id,
-        })
-        .then((response) => {
-          if (response.data?.conflict) {
-            setErrorMsgE("البريد الإلكتروني مستخدم!");
-            done = false;
-          } else if (response?.data?.success) {
-            console.log(response?.data.success);
-            setUser(response?.data?.success.user);
-            localStorage.setItem("token", response.data.success.token);
-            localStorage.setItem('id', response.data.success.user.user_id);
-            userRefresh()
-            done = true;
-          } else{
-            done = false;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      if (done) {
-        setEmail("");
-        setSchool("");
-        setUserImg("");
-        setUserName("");
-        setGender("");
-        setJop("");
-        setPassword("");
-
-        setAuth(true);
- 
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'تم التسجيل بنجاح',
-            showConfirmButton: false,
-            timer: 1500
-          })
+   
       
-          navigate("/");
+      
+        axios
+          .post("http://localhost:5500/register", {
+            username: UserName,
+            email: Email,
+            password: Password,
+            school_name: school,
+            gender: Gender,
+            user_img: UserImg,
+            role_id: role_id,
+          })
+          .then((response) => {
+            if (response.data?.conflict) {
+              setErrorMsgE("البريد الإلكتروني مستخدم!");
+              done = false;
+            } else if (response?.data?.success) {
+              setUser(response?.data?.success.user);
+              localStorage.setItem("token", response.data.success.token);
+              localStorage.setItem("id", response.data.success.user.user_id);
+              forceUpdate()
+              navigate('/')
+              done = true;
+            } else {
+              done = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+
+          if (done) {
+            setEmail("");
+            setSchool("");
+            setUserImg("");
+            setUserName("");
+            setGender("");
+            setJop("");
+            setPassword("");
+    
+            setAuth(true);
+    
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "تم التسجيل بنجاح",
+              showConfirmButton: false,
+              iconColor: '#FFCD29',
+              timer: 1500,
+            });
+    
+            navigate("/");
+          }
       }
-    }
+
+   
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -185,7 +183,8 @@ const SignUp = ({ setSignUp }) => {
                 </div>
                 {/* USERNAME input */}
                 <div className="form-outline mb-4">
-                  <label className="form-label fw-bold" htmlFor="username"><span className="text-danger">*</span>
+                  <label className="form-label fw-bold" htmlFor="username">
+                    <span className="text-danger">*</span>
                     الاسم الرباعي
                   </label>
                   <input
@@ -205,7 +204,8 @@ const SignUp = ({ setSignUp }) => {
                 </div>
                 {/* Email input */}
                 <div className="form-outline mb-4">
-                  <label className="form-label fw-bold" htmlFor="email"><span className="text-danger">*</span>
+                  <label className="form-label fw-bold" htmlFor="email">
+                    <span className="text-danger">*</span>
                     البريد الإلكتروني
                   </label>
                   <input
@@ -225,7 +225,8 @@ const SignUp = ({ setSignUp }) => {
                 </div>
                 {/* Password input */}
                 <div className="form-outline mb-3">
-                  <label className="form-label fw-bold" htmlFor="password"><span className="text-danger">*</span>
+                  <label className="form-label fw-bold" htmlFor="password">
+                    <span className="text-danger">*</span>
                     كلمة المرور
                   </label>
                   <input
@@ -252,7 +253,8 @@ const SignUp = ({ setSignUp }) => {
                 </div>
                 {/* school name input */}
                 <div className="form-outline mb-3">
-                  <label className="form-label fw-bold" htmlFor="school"><span className="text-danger">*</span>
+                  <label className="form-label fw-bold" htmlFor="school">
+                    <span className="text-danger">*</span>
                     اسم المدرسة{" "}
                     <span className="text-secondary">
                       (دون كتابة كلمة "مدرسة")
@@ -274,7 +276,9 @@ const SignUp = ({ setSignUp }) => {
                   </span>
                 </div>
                 <div className="form-outline mb-3">
-                  <label className="form-label d-block fw-bold"><span className="text-danger">*</span>الجنس</label>
+                  <label className="form-label d-block fw-bold">
+                    <span className="text-danger">*</span>الجنس
+                  </label>
                   <div className="form-check form-check-inline">
                     <input
                       className="form-check-input"
@@ -314,7 +318,8 @@ const SignUp = ({ setSignUp }) => {
                   </p>
                 </div>
                 <div className="form-outline mb-3">
-                  <label className="form-label d-block fw-bold"><span className="text-danger">*</span>
+                  <label className="form-label d-block fw-bold">
+                    <span className="text-danger">*</span>
                     المسمى الوظيفي
                   </label>
                   <select
@@ -322,13 +327,13 @@ const SignUp = ({ setSignUp }) => {
                     name="userType"
                     id="userType"
                     onChange={(event) => {
-                      setJop(event.target.value);
+                      setRole_id(event.target.value);
                       setErrorMsgJ("");
                     }}
                   >
                     <option value="none">اختر</option>
-                    <option value="teacher">معلم/ة</option>
-                    <option value="headmaster">مدير/ة</option>
+                    <option value="2">معلم/ة</option>
+                    <option value="3">مدير/ة</option>
                   </select>
                   <p className="text-danger" id="jopError">
                     {ErrorMsgJ}

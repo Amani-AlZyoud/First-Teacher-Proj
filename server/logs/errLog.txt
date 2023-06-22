@@ -1,6 +1,0 @@
-20230610	20:12:53	f20961c4-0806-4720-b75c-72e96a158006	TypeError: req.body.role_id.map is not a function
-20230610	20:29:10	54796d50-0e5b-4ecd-8936-4a384deff149	TypeError: Cannot read properties of undefined (reading 'map')
-20230610	21:27:45	7a0111e2-724b-4889-948e-203715757f9b	ReferenceError: result is not defined
-20230610	21:28:31	e46ce286-3c2d-421f-857e-83507111c287	ReferenceError: number is not defined
-20230622	11:14:51	2e109c2c-e90f-4317-9016-0a8d3f60938f	Error: Not allowed by CORS
-20230622	11:14:51	5abc2991-569f-47bc-bbed-976d9eb17fad	Error: Not allowed by CORS
