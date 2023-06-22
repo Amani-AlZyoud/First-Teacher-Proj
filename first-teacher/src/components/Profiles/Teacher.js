@@ -4,6 +4,7 @@ import exam from "../../images/نموذج امتحان.png"
 import { UserContext } from '../../contexts/UserContext'
 import { HashLink } from 'react-router-hash-link'
 import { Link } from 'react-router-dom'
+import ProfileImg from '../../images/placeholder.jpg'
 const Teacher = () => {
 
   const [plan, setPlan] = useState(() => {
@@ -12,14 +13,14 @@ const Teacher = () => {
     else return [];
   })
 
-  const {user, setUser} = useContext(UserContext);
+  const {user} = useContext(UserContext);
   return (
     <>
     <div className="container my-5 rounded-3 bg-white" id="teacherProf">
   <div className="row mb-3 text-end">
     <div className="col-md-2 themed-grid-col mt-4">
       <img
-        src={user.UserImg}
+        src={user?.user_img ? user.user_img : ProfileImg}
         id="teacherImg"
         className="img-thumbnail"
         width={200}
@@ -28,18 +29,18 @@ const Teacher = () => {
     </div>
     <div className="col-md-8 themed-grid-col mt-4">
       <h2>
-      {user.jop === "teacher" && user.Gender === "Female" ? "المعلمة" : ""}
-        {user.jop === "teacher" && user.Gender === "Male" ? "المعلم" : ""}
-        <span id="teacherName"> {user.UserName}</span>
+      {user?.role_id === "2" && user?.gender === "Female" ? "المعلمة" : ""}
+        {user?.role_id === "2" && user?.gender === "Male" ? "المعلم" : ""}
+        <span id="teacherName"> {user?.username}</span>
       </h2>
       <h5 className="mt-4 text-muted">المدرسة</h5>
       <span className="fs-4" id="teacherSchool">
-        {user.school}
+        {user?.school_name}
       </span>
       
     </div>
     <div className="d-flex themed-grid-col mt-2 justify-content-end">
-      <HashLink to={`/plan/${user?.UserId}`}>
+      <HashLink to={`/plan/${user?.user_id}`}>
         <button className="btn btn-dark" id='createPlan'>+ إنشاء خطة الدرس</button>
       </HashLink>
     </div>

@@ -10,18 +10,9 @@ import { UserContext } from "../contexts/UserContext";
 const Header = () => {
   const { auth, setAuth } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
-  const [jop, setJop] = useState(() => {
-    if (user.jop !== undefined) 
-        return user.jop;
-    else return false;
-  });
 
-  console.log(jop);
-  const [image, setImage] = useState(() => {
-    if (user.UserImg !== undefined) return user.UserImg;
-    else return profile;
-  });
-  // console.log(image);
+
+
 
   return (
     <>
@@ -29,13 +20,15 @@ const Header = () => {
       <header className="bg-white">
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid align-items-end">
-            <Link to="/" className="navbar-brand" id="logo">
+            <Link to={user?.role_id === "1" ? `/profile/${user?.user_id}` : "/"} className="navbar-brand" id="logo">
               <img src={logo} width={200} alt="" id="logoImg"/>
             </Link>
 
             <form className="d-flex justify-content-center " role="search">
               {auth ? (
                 <div className="dropdown text-end">
+                { user?.role_id !== "1" &&
+                 <>
                   <a
                     href="#"
                     className="d-block link-dark text-decoration-none dropdown-toggle"
@@ -43,7 +36,7 @@ const Header = () => {
                     aria-expanded="false"
                   >
                     <img
-                      src={image}
+                      src={user?.user_img ? user.user_img : profile}
                       alt="mdo"
                       width="32"
                       height="32"
@@ -53,7 +46,7 @@ const Header = () => {
                   <ul className="dropdown-menu text-small" dir="right">
                     <li>
                       <Link
-                        to={`/profile/${user.UserId}`}
+                        to={`/profile/${user?.user_id}`}
                         className="dropdown-item text-end"
                         id="link1"
                       >
@@ -79,9 +72,9 @@ const Header = () => {
                       <Link
                         to="/"
                         onClick={() => {
-                          localStorage.removeItem("currentUser");
-                          setUser(null);
+                          setUser({});
                           setAuth(false);
+                          localStorage.clear();
                         }}
                         className="dropdown-item text-end"
                         id="link2"
@@ -107,6 +100,7 @@ const Header = () => {
                       </Link>
                     </li>
                   </ul>
+                 </>}
                 </div>
               ) : (
                 <></>
@@ -127,9 +121,9 @@ const Header = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        localStorage.removeItem("currentUser");
-                        setUser(null);
+                        setUser({});
                         setAuth(false);
+                        localStorage.clear();
                       }}
                       className="btn me-1"
                       id="loginBtn"
@@ -152,7 +146,7 @@ const Header = () => {
           </div>
         </nav>
         <div>
-       { user?.jop !== 'admin' ? <nav className="navbar navbar-expand-lg top-0" id="nav-edit-color">
+       { user?.role_id !== '1' ? <nav className="navbar navbar-expand-lg top-0" id="nav-edit-color">
             <div className="container-fluid">
               <button
                 className="navbar-toggler"
@@ -366,7 +360,7 @@ const Header = () => {
                     </li>
                   
 
-                  {jop === "headmaster" ? <></> : <></>}
+                  {user?.role_id === "3" ? <></> : <></>}
                   <li className="nav-item">
                     <Link to="shop" className="nav-link" id="nav-edit">
                       <svg

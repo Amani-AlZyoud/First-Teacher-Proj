@@ -11,15 +11,27 @@ import Payment from './components/Payment/Payment';
 import Instructions from "./components/Instructions/Instructions";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { UserProvider } from "./contexts/UserContext";
-import ScrollToTop from "./ScrollUp/ScrollUp";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 function App() {
+
+
+  const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+  };
   return (
     <>
 
       <BrowserRouter>
+      <ScrollToTop />
         <AuthContextProvider>
           <UserProvider>
-          <ScrollToTop>
         <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -32,7 +44,6 @@ function App() {
           <Route exact path="*" element={<NoPage />} />
         </Routes>
         <Footer />
-          </ScrollToTop>
         </UserProvider>
         </AuthContextProvider>
       </BrowserRouter>

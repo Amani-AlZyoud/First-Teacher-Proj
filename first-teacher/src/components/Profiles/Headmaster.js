@@ -5,7 +5,7 @@ import t1 from "../../images/t-prof.png"
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext'
 const Headmaster = () => {
-    const { user, setUser} = useContext(UserContext);
+    const { user } = useContext(UserContext);
     // console.log(user)
   return (
     <>
@@ -13,7 +13,7 @@ const Headmaster = () => {
   <div className="row mb-3 text-end">
     <div className="col-md-2 themed-grid-col mt-4">
       <img
-        src={user.UserImg}
+        src={user?.user_img}
         id="headmasterImg"
         className="img-thumbnail"
         width={200}
@@ -22,13 +22,13 @@ const Headmaster = () => {
     </div>
     <div className="col-md-8 themed-grid-col mt-4">
       <h2>
-        {user.jop === "headmaster" && user.Gender === "Female" ? "المديرة" : ""}
-        {user.jop === "headmaster" && user.Gender === "Male" ? "المدير" : ""}
-        <span id="teacherName"> {user.UserName}</span>
+        {user?.role_id === "3" && user?.gender === "Female" ? "المديرة" : ""}
+        {user?.role_id === "3" && user?.gender === "Male" ? "المدير" : ""}
+        <span id="teacherName"> {user?.username}</span>
       </h2>
       <h5 className="mt-4 text-muted">المدرسة</h5>
       <span className="fs-4" id="teacherSchool">
-        الهاشمية الثانوية للبنات
+        {user?.school_name}
       </span>
     </div>
     <div className="d-flex themed-grid-col my-2 justify-content-end">
