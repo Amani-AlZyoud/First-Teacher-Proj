@@ -31,8 +31,8 @@ const Header = () => {
                     <img
                       src={user?.user_img ? user.user_img : profile}
                       alt="profile"
-                      width="40"
-                      height="40"
+                      width="25"
+                      height="25"
                       className="rounded-circle"
                     />
                   </a>
@@ -227,7 +227,7 @@ const Header = () => {
                         <li>
                           {auth ? (
                             <Link
-                              to="/plan/1"
+                              to="/plan"
                               className="dropdown-item"
                               id="drop-list"
                             >

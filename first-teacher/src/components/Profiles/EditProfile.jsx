@@ -65,7 +65,7 @@ const EditProfile = ({ toggle, setToggle }) => {
               {
                 username: username,
                 school_name: schoolName,
-                user_img: UserImg,
+                user_img: UserImg ? UserImg : user.user_img,
               },
               {
                 headers: {
@@ -135,7 +135,7 @@ const EditProfile = ({ toggle, setToggle }) => {
                   </Form.Label>
                   <Col sm="9">
                     <Form.Control
-                      readOnly
+                      disabled={true}
                       defaultValue={email}
                       id="InputField"
                     />

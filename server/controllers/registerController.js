@@ -15,23 +15,25 @@ const handleNewUser = async (req, res) => {
     }
     try {
 
-            // create JWTs
-            const accessToken = jwt.sign(
-                {
-                    "UserInfo": {
-                        "user": { username, email, password },
-                        "role": role_id
-                    }
-                },
-                process.env.ACCESS_TOKEN_SECRET
-            );
-
-
+           
         //encrypt the password
         const hashedPwd = await bcrypt.hash(password, 10);
         //create and store the new user
         const sql2 = "INSERT INTO users (username, email, password, school_name, gender, user_img, role_id, active) VALUES($1, $2, $3 , $4 , $5, $6, $7, $8) RETURNING *";
         const result = await pool.query(sql2, [username, email, hashedPwd, school_name, gender, user_img, role_id, 1]);
+
+         // create JWTs
+         const accessToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "user": { username, email, password, user_id: result.rows[0].user_id },
+                    "role": role_id
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET
+        );
+
+
 
         res.status(201).json({ 'success': { 'user': result.rows[0], 'token': accessToken} });
 

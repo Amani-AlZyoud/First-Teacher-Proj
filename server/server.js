@@ -46,6 +46,8 @@ app.use('/users', require('./routes/api/users'));
 // Headmaster routes
 app.use('/headmasters', require('./routes/api/headmasters'));
 
+app.use('/lessons', require('./routes/api/lessonsPlan'));
+
 
 // start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

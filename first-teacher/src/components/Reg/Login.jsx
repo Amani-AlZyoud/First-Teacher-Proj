@@ -46,7 +46,14 @@ const Login = ({ setSignUp }) => {
             forceUpdate();
             localStorage.setItem("token", response.data.success.token);
             localStorage.setItem("id", response.data.success.user.user_id);
-            done = false;
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "أهلاً وسهلاً بك",
+              showConfirmButton: false,
+              iconColor: '#FFCD29',
+              timer: 1500,
+            });
           }
 
           if (response.data?.Error) {
@@ -59,18 +66,7 @@ const Login = ({ setSignUp }) => {
           done = false;
         });
 
-      if (done) {
-   
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "أهلاً وسهلاً بك",
-            showConfirmButton: false,
-            iconColor: '#FFCD29',
-            timer: 1500,
-          });
-          
-      }
+     
     }
   };
 

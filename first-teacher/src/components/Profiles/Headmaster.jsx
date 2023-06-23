@@ -28,7 +28,6 @@ const Headmaster = () => {
       )
       .then((response) => {
         if (response.data.success) {
-          console.log(response.data);
           setTeachers(response.data.success);
         }
 
@@ -43,7 +42,7 @@ const Headmaster = () => {
 
   return (
     <>
-      <div className="container my-5">
+   <div className="container my-3 bg-white py-2 rounded-2">
         <Breadcrumbs aria-label="breadcrumb" dir="rtl">
           <Link underline="hover" className="text-dark fw-bold" to="/">
             الصفحة الرئيسية
