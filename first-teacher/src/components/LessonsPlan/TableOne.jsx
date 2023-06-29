@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { HashLink } from "react-router-hash-link";
+import Swal from "sweetalert2";
 import { v4 as uuid } from "uuid";
 const TableOne = ({setTableO}) => {
   const unique_id = uuid();
@@ -26,7 +28,7 @@ const TableOne = ({setTableO}) => {
   const [mood, setMood] = useState("create");
   const [updateId, setUpdateId] = useState("");
 
-  const [tableOne, setTableOne] = useState(JSON.parse(localStorage.getItem("tableOne") ? localStorage.getItem("tableOne"): []));
+  const [tableOne, setTableOne] = useState(localStorage.getItem("tableOne") ? JSON.parse(localStorage.getItem("tableOne")): []);
   // Table 1 submit handler
 
   const handleTableOne = (event) => {
@@ -90,6 +92,11 @@ const TableOne = ({setTableO}) => {
             },
           ];
         });
+        Swal.fire({
+          title: "تم الحفظ بنجاح",
+          icon: "success",
+          showConfirmButton: false,
+        });
         setNum("");
         setResults("");
         setTools("");
@@ -99,7 +106,7 @@ const TableOne = ({setTableO}) => {
         setToDo("");
         setWq("");
       } else {
-        tableOne.map((t) => {
+        tableOne.forEach((t) => {
           if (t.id === updateId) {
             t.num = num;
             t.results = results;
@@ -114,6 +121,11 @@ const TableOne = ({setTableO}) => {
         localStorage.setItem("tableOne", JSON.stringify(tableOne));
         setTableO(tableOne)
         setMood("create");
+        Swal.fire({
+          title: "تم الحفظ بنجاح",
+          icon: "success",
+          showConfirmButton: false,
+        });
         setNum("");
         setResults("");
         setTools("");
@@ -137,7 +149,7 @@ const TableOne = ({setTableO}) => {
   const handleUpdate = (id) => {
     setMood("update");
     setUpdateId(id);
-    tableOne.map((t) => {
+    tableOne.forEach((t) => {
       if (t.id === id) {
         setNum(t.num);
         setResults(t.results);
@@ -158,7 +170,7 @@ const TableOne = ({setTableO}) => {
 
   return (
     <>
-      <h6 className="fs-4 fw-bold text-end my-5">تعبئة الجداول:</h6>
+      <h6 className="fs-4 fw-bold text-end my-5" id="tableONE">تعبئة الجداول:</h6>
       <form id="table1Form" onSubmit={handleTableOne}>
         <div className="row mb-3 text-end">
           <div className="col-lg-4 col-12 themed-grid-col text-end">
@@ -404,7 +416,7 @@ const TableOne = ({setTableO}) => {
                   <td>{row.wq}</td>
                   <td>
                     <button
-                      className="btn btn-white m-3"
+                      className="btn btn-danger m-3"
                       id="createPlan"
                       onClick={() => handleDelete(row.id)}
                     >
@@ -412,13 +424,15 @@ const TableOne = ({setTableO}) => {
                     </button>
                   </td>
                   <td>
+                    <HashLink to='#tableONE'>
                     <button
-                      className="btn btn-white m-3"
+                      className="btn btn-warning text-white m-3"
                       id="createPlan"
                       onClick={() => handleUpdate(row.id)}
                     >
                       تعديل
                     </button>
+                    </HashLink>
                   </td>
                 </tr>
             

@@ -1,17 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from '../../contexts/UserContext'
+import Swal from "sweetalert2";
 const MainForm = ({setMainForm}) => {
 
   const { user } = useContext(UserContext)
-   //غلاف الكتاب
-  const [materials, setMaterials] = useState("");
-  const [materialsE, setMaterialsE] = useState("");
-  const [gov, setGov] = useState("");
-  const [govE, setGovE] = useState("");
-  const [classes, setClasses] = useState("");
-  const [classesE, setClassesE] = useState("");
-  const [studyYear, setStudyYear] = useState("");
-  const [studyYearE, setStudyYearE] = useState("");
+  
+  const [mainF, setMainF] = useState(localStorage.getItem("mainForm") ? JSON.parse(localStorage.getItem("mainForm")):{});
+  //غلاف الكتاب
+ const [materials, setMaterials] = useState(mainF ? mainF.materials : "");
+ const [materialsE, setMaterialsE] = useState("");
+ const [gov, setGov] = useState(mainF ? mainF.gov : "");
+ const [govE, setGovE] = useState("");
+ const [classes, setClasses] = useState(mainF ? mainF.classes : "");
+ const [classesE, setClassesE] = useState("");
+ const [studyYear, setStudyYear] = useState(mainF ? mainF.studyYear : "");
+ const [studyYearE, setStudyYearE] = useState("");
 
   // main Form elements submits
   const handleMainForm = (event) => {
@@ -40,11 +43,26 @@ const MainForm = ({setMainForm}) => {
     }
 
     if (done) {
-      const mainForm = { materials, gov, classes, studyYear };
-      localStorage.setItem("mainForm", JSON.stringify(mainForm));
-      setMainForm(mainForm);
+      const main_form = { materials, gov, classes, studyYear };
+      localStorage.setItem("mainForm", JSON.stringify(main_form));
+      console.log(localStorage.getItem("mainForm"));
+      setMainForm(main_form);
+      Swal.fire({
+        title: "تم الحفظ بنجاح",
+        icon: "success",
+        showConfirmButton: false,
+      });
     }
   };
+
+
+  useEffect(() => {
+    setMainF(localStorage.getItem("mainForm") ? JSON.parse(localStorage.getItem("mainForm")):{})
+    setMaterials(mainF ? mainF.materials : "")
+    setGov(mainF ? mainF.gov : "")
+    setClasses(mainF ? mainF.classes : "")
+    setStudyYear(mainF ? mainF.studyYear : "")
+  }, [])
 
   return (
     <>
@@ -147,8 +165,8 @@ const MainForm = ({setMainForm}) => {
               }}
             >
               <option value="none">اختر</option>
-              <option value="first">الفصل الأول</option>
-              <option value="second">الفصل الثاني</option>
+              <option value="الأول">الفصل الأول</option>
+              <option value="الثاني">الفصل الثاني</option>
             </select>
             <span className="text-danger" id="studyYearE">
               {studyYearE}

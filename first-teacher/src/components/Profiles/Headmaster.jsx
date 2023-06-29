@@ -42,16 +42,16 @@ const Headmaster = () => {
 
   return (
     <>
-   <div className="container my-3 bg-white py-2 rounded-2">
+   <div className="container my-3 bg-white py-2 rounded-2 border border-warning shadow-lg">
         <Breadcrumbs aria-label="breadcrumb" dir="rtl">
-          <Link underline="hover" className="text-dark fw-bold" to="/">
+          <Link underline="hover" className="text-dark fw-bold text-decoration-none" to="/">
             الصفحة الرئيسية
           </Link>
           <span className="text-black fw-bold pe-none">صفحتي</span>
         </Breadcrumbs>
       </div>
 
-      <div className="container mt-5 rounded-3 bg-white" id="headmasterProf">
+      <div className="container mt-5 rounded-3 bg-white border border-warning shadow-lg border-2" id="headmasterProf">
         <div className="row mb-3 text-end">
           <div className="col-md-2 themed-grid-col mt-4">
             <img
@@ -88,13 +88,13 @@ const Headmaster = () => {
       </div>
 
       <>
-        <div className="container text-center g-0 pe-none" id="title1">
+        <div className="container text-center g-0 pe-none " id="title1">
           <h1 className="text-light py-3 mt-5 text-bg-dark rounded">
             المعلمون / المعلمات
           </h1>
         </div>
         <div
-          className="container mb-5 rounded"
+          className="container mb-5 shadow-lg rounded-bottom-2"
           id="teachersContainer"
           style={{ backgroundColor: "white" }}
         >
@@ -110,11 +110,10 @@ const Headmaster = () => {
                       <img
                         src={teacher?.user_img ? teacher.user_img : t1}
                         alt=""
-                        className="bd-placeholder-img my-2 me-1"
-                        width={90}
-                        height={90}
-                        style={{ borderRadius: "90px" }}
-                      />
+                        className="rounded-circle my-2 me-1"
+                        width={130}
+                        height={80}
+                                             />
                       <Link
                         to
                         className="text-dark-emphasis col-lg-4 col-sm-12"

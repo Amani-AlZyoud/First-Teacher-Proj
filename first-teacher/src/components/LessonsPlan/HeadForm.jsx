@@ -1,64 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-const HeadForm = ({setHeadForm}) => {
-  const [level, setLevel] = useState("");
+const HeadForm = ({ setHeadForm }) => {
+  const [headerForm, setHeaderForm] = useState(
+    localStorage.getItem("headerForm")
+      ? JSON.parse(localStorage.getItem("headerForm"))
+      : undefined
+  );
+  const [level, setLevel] = useState(headerForm ? headerForm.level : "");
   const [levelE, setLevelE] = useState("");
-  const [materialType, setMaterialType] = useState("");
+  const [materialType, setMaterialType] = useState(
+    headerForm ? headerForm.materialType : ""
+  );
   const [materialTypeE, setMaterialTypeE] = useState("");
-  const [unit, setUnit] = useState("");
+  const [unit, setUnit] = useState(headerForm ? headerForm.unit : "");
   const [unitE, setUnitE] = useState("");
-  const [lessonName, setLessonName] = useState("");
+  const [lessonName, setLessonName] = useState(
+    headerForm ? headerForm.lessonName : ""
+  );
   const [lessonNameE, setLessonNameE] = useState("");
-  const [lessonsCount, setLessonsCount] = useState("");
+  const [lessonsCount, setLessonsCount] = useState(
+    headerForm ? headerForm.lessonsCount : ""
+  );
   const [lessonsCountE, setLessonsCountE] = useState("");
-  const [dataFrom, setDataFrom] = useState("");
+  const [dataFrom, setDataFrom] = useState(
+    headerForm ? headerForm.dataFrom : ""
+  );
   const [dataFromE, setDataFromE] = useState("");
-  const [dataTo, setDataTo] = useState("");
+  const [dataTo, setDataTo] = useState(headerForm ? headerForm.dataTo : "");
   const [dataToE, setDataToE] = useState("");
 
   // Header Form elements submits
   const handleHeaderForm = (event) => {
     event.preventDefault();
-
     let done = true;
-
-    if (level === "") {
+    if (level === undefined) {
       done = false;
       setLevelE("حقل إجباري");
     }
-
-    if (materialType === "") {
+    if (materialType === undefined) {
       done = false;
       setMaterialTypeE("حقل إجباري");
     }
 
-    if (unit === "") {
+    if (unit === undefined) {
       done = false;
       setUnitE("حقل إجباري");
     }
 
-    if (lessonName === "") {
+    if (lessonName === undefined) {
       done = false;
       setLessonNameE("حقل إجباري");
     }
 
-    if (lessonsCount === "") {
+    if (lessonsCount === undefined) {
       done = false;
       setLessonsCountE("حقل إجباري");
     }
 
-    if (dataFrom === "") {
+    if (dataFrom === undefined) {
       done = false;
       setDataFromE("حقل إجباري");
     }
 
-    if (dataTo === "") {
+    if (dataTo === undefined) {
       done = false;
       setDataToE("حقل إجباري");
     }
 
     if (done) {
-      const headerForm = {
+      const header = {
         level,
         materialType,
         unit,
@@ -67,11 +78,35 @@ const HeadForm = ({setHeadForm}) => {
         dataFrom,
         dataTo,
       };
-      localStorage.setItem("headerForm", JSON.stringify(headerForm));
-      setHeadForm(headerForm);
-
+      localStorage.setItem("headerForm", JSON.stringify(header));
+      setHeadForm(header);
+      Swal.fire({
+        title: "تم الحفظ بنجاح",
+        icon: "success",
+        showConfirmButton: false,
+      });
     }
   };
+
+  useEffect(() => {
+    setHeaderForm(
+      localStorage.getItem("headerForm")
+        ? JSON.parse(localStorage.getItem("headerForm"))
+        : {}
+    );
+    setLevel(headerForm ? headerForm.level : "");
+    setMaterialType(headerForm ? headerForm.materialType : "");
+
+    setUnit(headerForm ? headerForm.unit : "");
+
+    setLessonName(headerForm ? headerForm.lessonName : "");
+
+    setLessonsCount(headerForm ? headerForm.lessonsCount : "");
+
+    setDataFrom(headerForm ? headerForm.dataFrom : "");
+
+    setDataTo(headerForm ? headerForm.dataTo : "");
+  }, []);
 
   return (
     <>

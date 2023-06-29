@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../../Styles/style_login.css";
-import { HashLink } from "react-router-hash-link";
 import FadeIn from "react-fade-in/lib/FadeIn";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
@@ -154,15 +153,13 @@ const Login = ({ setSignUp }) => {
                   </button>
                   <p className="small fw-bold mt-2 pt-1 mb-0">
                     ليس لديك حساب؟{" "}
-                    <HashLink smooth to="#">
-                      <button
+                      <Link
                         onClick={() => setSignUp(false)}
-                        className="btn link-danger"
+                        className="small fw-bold me-2 link-primary"
                         id="createAcc"
                       >
                         إنشاء حساب
-                      </button>
-                    </HashLink>
+                      </Link>
                   </p>
                 </div>
               </form>

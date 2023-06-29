@@ -27,8 +27,8 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <ScrollToTop />
         <Header />
+        <ScrollToTop />
      { auth && (user.role_id === "2" || user.role_id === "3") &&  
        <>
         <Routes>
@@ -51,6 +51,8 @@ function App() {
           <Route exact path="/login" element={<Forms />} />
           <Route exact path="/contact" element={<ContactUs />} />
           <Route exact path="/profile/:id" element={<Forms />} />
+          <Route exact path="/plan/:id" element={<Home />} />
+          <Route exact path="/plan" element={<Home />} />
           <Route exact path="/payment" element={<Forms />} />
           <Route exact path="/instructions" element={<Instructions />} />
           <Route exact path="*" element={<NoPage />} />

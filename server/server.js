@@ -6,6 +6,7 @@ const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
 const verifyJWT = require('./middleware/verifyJWT');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3500;
 
@@ -18,6 +19,9 @@ app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // built-in middleware for json 
 app.use(express.json({ limit: "50mb" }));
@@ -47,6 +51,8 @@ app.use('/users', require('./routes/api/users'));
 app.use('/headmasters', require('./routes/api/headmasters'));
 
 app.use('/lessons', require('./routes/api/lessonsPlan'));
+
+
 
 
 // start the server

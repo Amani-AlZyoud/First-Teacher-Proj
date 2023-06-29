@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { v4 as uuid } from "uuid";
-const TableTwo = ({setTableT}) => {
+const TableTwo = ({ setTableT }) => {
   const unique_id = uuid();
   const small_id = unique_id.slice(0, 8);
 
@@ -17,7 +18,11 @@ const TableTwo = ({setTableT}) => {
   const [mood, setMood] = useState("create");
   const [updateId, setUpdateId] = useState("");
 
-  const [tableTwo, setTableTwo] = useState(JSON.parse(localStorage.getItem("tableTwo") ? localStorage.getItem("tableTwo"): []));
+  const [tableTwo, setTableTwo] = useState(
+    localStorage.getItem("tableTwo")
+      ? JSON.parse(localStorage.getItem("tableTwo"))
+      : []
+  );
 
   const handleTableTwo = (event) => {
     event.preventDefault();
@@ -38,6 +43,11 @@ const TableTwo = ({setTableT}) => {
             },
           ];
         });
+        Swal.fire({
+          title: "تم الحفظ بنجاح",
+          icon: "success",
+          showConfirmButton: false,
+        });
         setDatte("");
         setDay("");
         setSection("");
@@ -56,7 +66,12 @@ const TableTwo = ({setTableT}) => {
           }
         });
         localStorage.setItem("tableTwo", JSON.stringify(tableTwo));
-        setTableT(tableTwo)
+        Swal.fire({
+          title: "تم الحفظ بنجاح",
+          icon: "success",
+          showConfirmButton: false,
+        });
+        setTableT(tableTwo);
         setMood("create");
         setDatte("");
         setDay("");
@@ -89,7 +104,7 @@ const TableTwo = ({setTableT}) => {
 
   useEffect(() => {
     localStorage.setItem("tableTwo", JSON.stringify(tableTwo));
-    setTableT(tableTwo)
+    setTableT(tableTwo);
   }, [tableTwo]);
 
   return (
@@ -201,34 +216,33 @@ const TableTwo = ({setTableT}) => {
           <tbody style={{ backgroundColor: "white" }}>
             {tableTwo?.map((row) => {
               return (
-          
-                  <tr key={row.id}>
-                    <td>
-                      {row.datte}، {row.day}
-                    </td>
-                    <td>{row.section}</td>
-                    <td>{row.classLesson}</td>
-                    <td>{row.achivedResults}</td>
-                    <td>{row.hw}</td>
-                    <td>
-                      <button
-                        className="btn btn-white"
-                        id="createPlan"
-                        onClick={() => handleDelete(row.id)}
-                      >
-                        حذف
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-white"
-                        id="createPlan"
-                        onClick={() => handleUpdate(row.id)}
-                      >
-                        تعديل
-                      </button>
-                    </td>
-                  </tr>
+                <tr key={row.id}>
+                  <td>
+                    {row.datte}، {row.day}
+                  </td>
+                  <td>{row.section}</td>
+                  <td>{row.classLesson}</td>
+                  <td>{row.achivedResults}</td>
+                  <td>{row.hw}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      id="createPlan"
+                      onClick={() => handleDelete(row.id)}
+                    >
+                      حذف
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-warning text-white"
+                      id="createPlan"
+                      onClick={() => handleUpdate(row.id)}
+                    >
+                      تعديل
+                    </button>
+                  </td>
+                </tr>
               );
             })}
           </tbody>
