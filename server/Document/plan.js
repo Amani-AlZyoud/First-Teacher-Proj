@@ -71,12 +71,10 @@ li{
     </div>
   <h3 style="text-align: center; margin-top: 3rem;">خطة الدرس</h3>
 
-    <p style="direction: rtl; margin-right: 8rem;">الصف / المستوى : ${headform.level}.&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; المبحث : ${headform.materialType}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الوحدة : ${headform.unit}.&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الدرس : ${headform.lessonName}.</p>
-    <p style="direction: rtl; margin-right: 8rem;">عدد الحصص : ${headform.lessonsCount}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; التاريخ : من :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${headform.dataFrom}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; إلى :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${headform.dataTo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <p style="direction: rtl;">الصف / المستوى : ${headform.level}.&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; المبحث : ${headform.materialType}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الوحدة : ${headform.unit}.&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الدرس : ${headform.lessonName}.</p>
+    <p style="direction: rtl;">عدد الحصص : ${headform.lessonsCount}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; التاريخ : من :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${headform.dataFrom}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; إلى :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${headform.dataTo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
 
-    
-<div style="display: flex; justify-content: center;">
     <table style="direction: rtl; width: 740.8px; border-color: black; margin-left: auto; margin-right: auto;" border="5" cellspacing="2" cellpadding="2">
 <tbody>
    <tr style="height: 35px;">
@@ -143,11 +141,11 @@ ${table_one.map((row) => {
       </td>
 </tr>
  
-   `;
+   `
 })}
 </tbody>
 </table>
-</div>
+
 
 
 <table style="border-color: black; margin-left: auto; margin-right: auto;" border="5" width="740.8" cellspacing="2" cellpadding="2">

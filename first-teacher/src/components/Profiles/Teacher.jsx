@@ -3,10 +3,10 @@ import Plan from "../../images/خطة الدرس.png";
 import exam from "../../images/نموذج امتحان.png";
 import { UserContext } from "../../contexts/UserContext";
 import { HashLink } from "react-router-hash-link";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProfileImg from "../../images/placeholder.jpg";
 import EditProfile from "./EditProfile";
-import { Breadcrumbs } from "@mui/material";
+import { Breadcrumbs, CircularProgress } from "@mui/material";
 import axios from "axios";
 import PaginationComponent from "../PaginationComponent";
 import { saveAs } from "file-saver";
@@ -16,18 +16,20 @@ const Teacher = () => {
   const [plan, setPlan] = useState([]);
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [downloading, setDownloading] = useState();
 
-  const [allSessionsCount, setAllSessionCount] = useState(1);
-  const [sessionsPerPage, setSessionsPerPage] = useState(3);
+  const [allPlansCount, setAllPlansCount] = useState(1);
+  const [PlansPerPage, setPlansPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const lastSessionNumber = currentPage * sessionsPerPage;
-  const firstSessionIndex = lastSessionNumber - sessionsPerPage;
-  const [limitedSessions, setLimitedSessions] = useState([]);
+  const lastPlanNumber = currentPage * PlansPerPage;
+  const firstPlanIndex = lastPlanNumber - PlansPerPage;
+  const [limitedPlans, setLimitedPlans] = useState([]);
+  const {id} = useParams()
 
   useEffect(() => {
     axios
-      .get("http://localhost:5500/lessons", {
+      .get(`http://localhost:5500/lessons/userPlans/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -49,10 +51,10 @@ const Teacher = () => {
 
   useEffect(() => {
     if (!isLoading && plan.length > 0) {
-      setAllSessionCount(plan.length);
-      setLimitedSessions(plan.slice(firstSessionIndex, lastSessionNumber));
+      setAllPlansCount(plan.length);
+      setLimitedPlans(plan.slice(firstPlanIndex, lastPlanNumber));
     }
-  }, [isLoading, plan, firstSessionIndex, lastSessionNumber]);
+  }, [isLoading, plan, firstPlanIndex, lastPlanNumber]);
 
   const state = {
     name: "Amani",
@@ -61,7 +63,7 @@ const Teacher = () => {
     price2: 0,
   };
   const createAndDownloadPdf = (p) => {
-    console.log(p.mainform[0]);
+    setDownloading(true)
     axios
       .post("http://localhost:5500/lessons/create-pdf", {
         username: user.username,
@@ -78,6 +80,7 @@ const Teacher = () => {
       }, )
       .then((response) => 
       {
+        setDownloading(false);
         const pdfBlob = new Blob([response.data], { type: "application/pdf" });
         saveAs(pdfBlob, "plan.pdf");
     }
@@ -103,7 +106,7 @@ const Teacher = () => {
         id="teacherProf"
       >
         <div className="row mb-3 text-end">
-          <div className="col-md-2 themed-grid-col mt-4">
+          <div className="col-md-4 col-3 themed-grid-col mt-4">
             <img
               src={user?.user_img ? user.user_img : ProfileImg}
               id="teacherImg"
@@ -112,7 +115,7 @@ const Teacher = () => {
               alt="teacherIMG"
             />
           </div>
-          <div className="col-md-8 themed-grid-col mt-4 pe-none">
+          <div className="col-md-9 col-9 themed-grid-col mt-4 pe-none">
             <h2>
               {user?.role_id === "2" && user?.gender === "Female"
                 ? "المعلمة"
@@ -121,9 +124,9 @@ const Teacher = () => {
               <span id="teacherName"> {user?.username}</span>
             </h2>
             <h5 className="mt-4 text-muted">المدرسة</h5>
-            <span className="fs-4" id="teacherSchool">
-              {user?.school_name}
-            </span>
+            <h2>
+            <span id="teacherSchool">{user?.school_name}</span>
+            </h2>
           </div>
           <div className="d-flex my-4 justify-content-end">
             <HashLink to="/plan">
@@ -149,7 +152,7 @@ const Teacher = () => {
 
       <>
         <div className="container text-center gx-0 pe-none " id="title1">
-          <h1 className="text-light py-4 mt-5 text-bg-dark shadow-lg rounded-2">
+          <h1 className="text-light py-4 mt-5 text-bg-dark shadow-lg">
             النماذج المعبئة
           </h1>
         </div>
@@ -159,7 +162,7 @@ const Teacher = () => {
               className="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-5 "
               id="lessonCardsContainer"
             >
-              {limitedSessions?.map((p) => {
+              {limitedPlans?.map((p) => {
                 return (
                   <div className="col" key={p?.lesson_id}>
                     <div className="card shadow-sm my-5">
@@ -186,7 +189,8 @@ const Teacher = () => {
                               id="createPlan"
                               onClick={() => createAndDownloadPdf(p)}
                             >
-                              معاينة
+                              {downloading ? <CircularProgress size="1.5rem" color="success" /> : "معاينة" }
+
                             </button>
                             <Link to={`/plan/${p?.lesson_id}`}>
                               {" "}
@@ -208,10 +212,10 @@ const Teacher = () => {
             </div>
           )}
           {!isLoading && (
-            <div className="d-flex justify-content-center my-5">
+            <div className="d-flex justify-content-center my-3">
               <PaginationComponent
-                itemsCount={allSessionsCount}
-                itemsPerPage={sessionsPerPage}
+                itemsCount={allPlansCount}
+                itemsPerPage={PlansPerPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 alwaysShown={false}
@@ -219,7 +223,7 @@ const Teacher = () => {
             </div>
           )}
 
-          {limitedSessions?.length === 0 && (
+          {limitedPlans?.length === 0 && (
             <h3 className="text-center py-4 mb-4">لا يوجد نماذج معبئة بعد</h3>
           )}
         </div>

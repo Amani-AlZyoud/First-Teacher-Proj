@@ -12,6 +12,7 @@ import Instructions from "./components/Instructions/Instructions";
 import { UserContext } from "./contexts/UserContext";
 import { useLocation } from "react-router-dom";
 import { useContext, useEffect } from "react";
+import Plans from "./components/LessonsPlan/Plans";
 function App() {
   const { user, auth } = useContext(UserContext);
 
@@ -39,6 +40,7 @@ function App() {
           <Route exact path="/contact" element={<ContactUs />} />
           <Route exact path="/profile/:id" element={<Profile />} />
           <Route exact path="/payment" element={<Payment />} />
+          <Route exact path="/plans/:id" element={<Plans />} />
           <Route exact path="/instructions" element={<Instructions />} />
           <Route exact path="*" element={<NoPage />} />
         </Routes>

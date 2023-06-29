@@ -26,7 +26,7 @@ const setLesson = async (req, res) => {
 };
 
 const getUserLessons = async (req, res) => {
-  const id = req?.user?.user_id;
+  const {id} = req.params;
   const sql = "SELECT * FROM lessons WHERE user_id = $1";
   const lessons = await pool.query(sql, [id]);
   res.json({ success: lessons.rows });

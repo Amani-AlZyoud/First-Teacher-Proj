@@ -79,7 +79,6 @@ const getTeacher = async (req, res) => {
 const getGroup = async (req, res) => {
 
     const { school_name } = req.body;
-    console.log(school_name);
     if (!school_name) return res.json({ 'message': 'School name is required.' });
 
     const teachers = await pool.query("SELECT * FROM users WHERE school_name = $1 AND role_id = '2' AND active = '1' GROUP BY user_id, gender;", [school_name]);
