@@ -1,10 +1,10 @@
 const pool = require("../config/dbConn");
-const pdf = require('html-pdf');
-const pdfTemplate = require('../Document/plan');
+const pdf = require("html-pdf");
+const pdfTemplate = require("../Document/plan");
 const options = {
-  "height": "15.5in",
-  "width": "8in",
-}
+  height: "15.5in",
+  width: "8in",
+};
 const setLesson = async (req, res) => {
   const id = req?.user?.user_id;
   const data = req?.body?.lesson;
@@ -26,8 +26,9 @@ const setLesson = async (req, res) => {
 };
 
 const getUserLessons = async (req, res) => {
-  const {id} = req.params;
-  const sql = "SELECT * FROM lessons WHERE user_id = $1";
+  const { id } = req.params;
+  const sql =
+    "SELECT * FROM lessons WHERE user_id = $1 AND sign = '0' ORDER BY lesson_id DESC";
   const lessons = await pool.query(sql, [id]);
   res.json({ success: lessons.rows });
 };
@@ -35,14 +36,16 @@ const getUserLessons = async (req, res) => {
 const getLesson = async (req, res) => {
   const id = req?.user?.user_id;
   const lesson_id = req.params.id;
-  const sql = "SELECT * FROM lessons WHERE user_id = $1 AND lesson_id = $2";
+  const sql =
+    "SELECT * FROM lessons WHERE user_id = $1 AND lesson_id = $2 ORDER BY lesson_id DESC";
   const lessons = await pool.query(sql, [id, lesson_id]);
   if (lessons.rows.length > 0) {
     const mainform = lessons.rows[0].mainform[0];
     const headform = lessons.rows[0].headform[0];
     const table_one = lessons.rows[0].table_one;
     const table_two = lessons.rows[0].table_two;
-    res.json({ success: { mainform, headform, table_one, table_two } });
+    const sign = lessons.rows[0].sign;
+    res.json({ success: { mainform, headform, table_one, table_two, sign } });
   } else {
     res.json({ message: "id not found" });
   }
@@ -70,17 +73,32 @@ const updateLesson = async (req, res) => {
   res.json({ success: lessons.rows[0] });
 };
 
-
 const createPDFLesson = (req, res) => {
-  pdf.create(pdfTemplate(req.body), options).toFile('controllers/result.pdf', (err) => {
-      if(err) {
-          res.send("error creating");
+  pdf
+    .create(pdfTemplate(req.body), options)
+    .toFile("controllers/result.pdf", (err) => {
+      if (err) {
+        res.send("error creating");
       }
-      res.sendFile(`${__dirname}/result.pdf`)
-  });
-}
+      res.sendFile(`${__dirname}/result.pdf`);
+    });
+};
 
+const signPlan = async (req, res) => {
+  const lesson_id = req.params.id;
+  const { sign } = req.body;
+  const sql = "UPDATE lessons SET sign = $2 WHERE lesson_id = $1";
+  const lessons = await pool.query(sql, [lesson_id, sign]);
+  res.json({ success: lessons.rows[0] });
+};
 
+const SignedPlans = async (req, res) => {
+  const { id } = req.params;
+  const sql =
+    "SELECT * FROM lessons WHERE user_id = $1 AND sign <> '0' ORDER BY lesson_id DESC";
+  const lessons = await pool.query(sql, [id]);
+  res.json({ success: lessons.rows });
+};
 
 module.exports = {
   setLesson,
@@ -88,4 +106,6 @@ module.exports = {
   getUserLessons,
   updateLesson,
   createPDFLesson,
+  signPlan,
+  SignedPlans,
 };

@@ -78,12 +78,12 @@ input, select{
   
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: #000000;
   }
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #000000;
+    background: #FFCD29;
   }
 
   

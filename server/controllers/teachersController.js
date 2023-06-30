@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const getAllTeachers = async (req, res) => {
     const Teachers = await pool.query(
-        "SELECT * FROM users WHERE active = '1' AND role_id = '2'"
+        "SELECT * FROM users WHERE active = '1' AND role_id = '2' ORDER BY user_id DESC"
       );
     if (Teachers.rows.length === 0) return res.json({ 'message': 'No Teachers found.' });
     res.json(Teachers.rows);
@@ -81,12 +81,15 @@ const getGroup = async (req, res) => {
     const { school_name } = req.body;
     if (!school_name) return res.json({ 'message': 'School name is required.' });
 
-    const teachers = await pool.query("SELECT * FROM users WHERE school_name = $1 AND role_id = '2' AND active = '1' GROUP BY user_id, gender;", [school_name]);
+    const teachers = await pool.query("SELECT * FROM users WHERE school_name = $1 AND role_id = '2' AND active = '1' GROUP BY user_id, gender ORDER BY user_id DESC", [school_name]);
     if (teachers.rows.length === 0) {
         return res.json({ "message": `No teachers.` });
     }
     res.json({'success': teachers.rows});
 }
+
+   
+
 
 module.exports = {
     getAllTeachers,
@@ -94,5 +97,5 @@ module.exports = {
     updateTeacher,
     deleteTeacher,
     getTeacher,
-    getGroup
+    getGroup,
 }

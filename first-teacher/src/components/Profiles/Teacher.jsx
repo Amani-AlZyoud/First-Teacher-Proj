@@ -25,7 +25,7 @@ const Teacher = () => {
   const lastPlanNumber = currentPage * PlansPerPage;
   const firstPlanIndex = lastPlanNumber - PlansPerPage;
   const [limitedPlans, setLimitedPlans] = useState([]);
-  const {id} = useParams()
+  const { id } = useParams();
 
   useEffect(() => {
     axios
@@ -56,35 +56,31 @@ const Teacher = () => {
     }
   }, [isLoading, plan, firstPlanIndex, lastPlanNumber]);
 
-  const state = {
-    name: "Amani",
-    receiptId: 0,
-    price1: 0,
-    price2: 0,
-  };
   const createAndDownloadPdf = (p) => {
-    setDownloading(true)
+    setDownloading(p.lesson_id);
     axios
-      .post("http://localhost:5500/lessons/create-pdf", {
-        username: user.username,
-        school_name: user.school_name,
-        mainform: p.mainform[0],
-        headform: p.headform[0],
-        table_one: p.table_one,
-        table_two: p.table_two
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      .post(
+        "http://localhost:5500/lessons/create-pdf",
+        {
+          username: user.username,
+          school_name: user.school_name,
+          mainform: p.mainform[0],
+          headform: p.headform[0],
+          table_one: p.table_one,
+          table_two: p.table_two,
         },
-       responseType: "blob"
-      }, )
-      .then((response) => 
-      {
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          responseType: "blob",
+        }
+      )
+      .then((response) => {
         setDownloading(false);
         const pdfBlob = new Blob([response.data], { type: "application/pdf" });
         saveAs(pdfBlob, "plan.pdf");
-    }
-      )
+      });
   };
 
   return (
@@ -106,7 +102,7 @@ const Teacher = () => {
         id="teacherProf"
       >
         <div className="row mb-3 text-end">
-          <div className="col-md-4 col-3 themed-grid-col mt-4">
+          <div className="col-md-4 col-3 col-lg-2 themed-grid-col mt-4">
             <img
               src={user?.user_img ? user.user_img : ProfileImg}
               id="teacherImg"
@@ -115,7 +111,7 @@ const Teacher = () => {
               alt="teacherIMG"
             />
           </div>
-          <div className="col-md-9 col-9 themed-grid-col mt-4 pe-none">
+          <div className="col-md-9 col-9 col-lg-10 themed-grid-col mt-4 pe-none">
             <h2>
               {user?.role_id === "2" && user?.gender === "Female"
                 ? "المعلمة"
@@ -125,12 +121,21 @@ const Teacher = () => {
             </h2>
             <h5 className="mt-4 text-muted">المدرسة</h5>
             <h2>
-            <span id="teacherSchool">{user?.school_name}</span>
+              <span id="teacherSchool">{user?.school_name}</span>
             </h2>
           </div>
           <div className="d-flex my-4 justify-content-end">
             <HashLink to="/plan">
-              <button className="btn btn-dark me-1" id="createPlan">
+              <button
+                className="btn btn-dark me-1"
+                id="createPlan"
+                onClick={() => {
+                  localStorage.removeItem("mainForm");
+                  localStorage.removeItem("headerForm");
+                  localStorage.removeItem("tableOne");
+                  localStorage.removeItem("tableTwo");
+                }}
+              >
                 + إنشاء خطة درس
               </button>
             </HashLink>
@@ -189,8 +194,14 @@ const Teacher = () => {
                               id="createPlan"
                               onClick={() => createAndDownloadPdf(p)}
                             >
-                              {downloading ? <CircularProgress size="1.5rem" color="success" /> : "معاينة" }
-
+                              {downloading === p.lesson_id ? (
+                                <CircularProgress
+                                  size="1.5rem"
+                                  color="success"
+                                />
+                              ) : (
+                                "معاينة"
+                              )}
                             </button>
                             <Link to={`/plan/${p?.lesson_id}`}>
                               {" "}

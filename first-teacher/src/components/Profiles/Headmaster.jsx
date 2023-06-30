@@ -7,7 +7,6 @@ import EditProfile from "./EditProfile";
 import { Breadcrumbs } from "@mui/material";
 import axios from "axios";
 import PaginationComponent from "../PaginationComponent";
-import CircularStatic from "../CircularProgressWithLabel";
 
 const Headmaster = () => {
   const { user } = useContext(UserContext);
@@ -112,84 +111,114 @@ const Headmaster = () => {
         </div>
       </div>
 
-      <div className="container text-center g-0 pe-none " id="title1">
-        <h1 className="text-light py-3 mt-5 text-bg-dark rounded">
-          المعلمون / المعلمات
-        </h1>
-      </div>
-      <div className="container mb-5 rounded-2 bg-white" id="teachersContainer">
-        <div class="row">
-          {!isLoading ? (
-            limitedSessions?.map((teacher) => {
-              return (
-                <>
-                  <div class="col-xl-3 col-sm-6 my-4">
-                    <div className="card text-center bg-dark">
-                      <div className="card-body">
-                        <div className="avatar-xs mr-3 float-left">
-                          <a href="#">
-                            <div className="avatar-title rounded-circle bg-soft-primary text-primary">
-                              <i className="icon-xs" data-feather="zap" />
+      <div className="container text-center g-0" id="title1">
+        {user.account === "YES" && (
+          <>
+            <h1
+              className="text-light py-3 mt-5 rounded"
+              style={{ backgroundColor: "black" }}
+            >
+              المعلمون / المعلمات
+            </h1>
+            <div
+              className="container mb-5 rounded-2 bg-white"
+              id="teachersContainer"
+            >
+              <div class="row">
+                {!isLoading ? (
+                  limitedSessions?.map((teacher) => {
+                    return (
+                      <>
+                        <div class="col-xl-3 col-sm-6 my-4">
+                          <div
+                            className="card text-center"
+                            style={{ backgroundColor: "black" }}
+                          >
+                            <div className="card-body">
+                              <div className="avatar-xs mr-3 float-left">
+                                <a href="#">
+                                  <div className="avatar-title rounded-circle bg-soft-primary text-primary">
+                                    <i className="icon-xs" data-feather="zap" />
+                                  </div>
+                                </a>
+                              </div>
+                              <div className="clearfix" />
+                              <div className="mb-4">
+                                <div className="avatar-md mx-auto">
+                                  <img
+                                    src={
+                                      teacher?.user_img ? teacher.user_img : t1
+                                    }
+                                    width={100}
+                                    height={100}
+                                    alt=""
+                                    className="rounded-circle border border-2"
+                                  />
+                                </div>
+                              </div>
+                              <h5 className="font-size-15 mb-1">
+                                <a
+                                  href="#"
+                                  className="text-white text-decoration-none"
+                                >
+                                  {teacher.username}
+                                </a>
+                              </h5>
+                              <p className="text-warning mb-2">
+                                {teacher.email}
+                              </p>
                             </div>
-                          </a>
-                        </div>
-                        <div className="clearfix" />
-                        <div className="mb-4">
-                          <div className="avatar-md mx-auto">
-                            <img
-                              src={teacher?.user_img ? teacher.user_img : t1}
-                              width={100}
-                              height={100}
-                              alt=""
-                              className="rounded-circle border border-2"
-                            />
+                            <div className="card-body border-top py-3">
+                              <Link
+                                to={`/plans/${teacher.user_id}`}
+                                className="btn btn-light w-lg waves-effect waves-light"
+                              >
+                                عرض خطط الدروس
+                              </Link>
+                            </div>
                           </div>
                         </div>
-                        <h5 className="font-size-15 mb-1">
-                          <a
-                            href="#"
-                            className="text-white text-decoration-none"
-                          >
-                            {teacher.username}
-                          </a>
-                        </h5>
-                        <p className="text-warning mb-2">{teacher.email}</p>
-                      </div>
-                      <div className="card-body border-top py-3">
-                        <Link
-                          to={`/plans/${teacher.user_id}`}
-                          className="btn btn-light w-lg waves-effect waves-light"
-                        >
-                          عرض خطط الدروس
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            })
-          ) : (
-            <></>
-          )}
-        </div>
+                      </>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
+              </div>
 
-        {limitedSessions?.length === 0 && (
-          <h3 className="text-center py-4 mb-4">لا يوجد معلمات بعد</h3>
+              {limitedSessions?.length === 0 && (
+                <h3 className="text-center py-4 mb-4">لا يوجد معلمات بعد</h3>
+              )}
+
+              {!isLoading && (
+                <div className="d-flex justify-content-center my-3">
+                  <PaginationComponent
+                    itemsCount={allTeachersCount}
+                    itemsPerPage={TeachersPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    alwaysShown={false}
+                  />
+                </div>
+              )}
+            </div>
+          </>
         )}
 
-        {!isLoading && (
-          <div className="d-flex justify-content-center my-3">
-            <PaginationComponent
-              itemsCount={allTeachersCount}
-              itemsPerPage={TeachersPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              alwaysShown={false}
-            />
-          </div>
+        {user.account === "NO" && (
+          <>
+            <h3
+              className="text-light py-3 mt-5 rounded"
+              style={{ backgroundColor: "black" }}
+            >
+              لم يتم تفعيل الحساب، يجب إتمام عملية الدفع{" "}
+              <Link to="/payment">
+                <button className="btn btn-danger">تفعيل حسابي</button>
+              </Link>
+            </h3>
+          </>
         )}
       </div>
-
       <EditProfile toggle={toggle} setToggle={setToggle} />
     </>
   );

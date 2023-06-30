@@ -19,8 +19,8 @@ const handleNewUser = async (req, res) => {
         //encrypt the password
         const hashedPwd = await bcrypt.hash(password, 10);
         //create and store the new user
-        const sql2 = "INSERT INTO users (username, email, password, school_name, gender, user_img, role_id, active) VALUES($1, $2, $3 , $4 , $5, $6, $7, $8) RETURNING *";
-        const result = await pool.query(sql2, [username, email, hashedPwd, school_name, gender, user_img, role_id, 1]);
+        const sql2 = "INSERT INTO users (username, email, password, school_name, gender, user_img, role_id, active, account) VALUES($1, $2, $3 , $4 , $5, $6, $7, $8, $9) RETURNING *";
+        const result = await pool.query(sql2, [username, email, hashedPwd, school_name, gender, user_img, role_id, 1, 'NO']);
 
          // create JWTs
          const accessToken = jwt.sign(

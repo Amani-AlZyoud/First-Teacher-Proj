@@ -7,7 +7,6 @@ import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
 
 const Login = ({ setSignUp }) => {
-  const navigate = useNavigate("/");
   const { user, setUser, forceUpdate } = useContext(UserContext);
 
   const [Email, setEmail] = useState("");

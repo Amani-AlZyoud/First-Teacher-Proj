@@ -26,7 +26,7 @@ const SignUp = ({ setSignUp }) => {
   };
 
   const navigate = useNavigate("/");
-  const { setUser, setAuth, forceUpdate  } = useContext(UserContext);
+  const { setUser, setAuth, forceUpdate } = useContext(UserContext);
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -98,64 +98,71 @@ const SignUp = ({ setSignUp }) => {
     }
 
     if (done) {
-   
-      
-      
-        axios
-          .post("http://localhost:5500/register", {
-            username: UserName,
-            email: Email,
-            password: Password,
-            school_name: school,
-            gender: Gender,
-            user_img: UserImg,
-            role_id: role_id,
-          })
-          .then((response) => {
-            if (response.data?.conflict) {
-              setErrorMsgE("البريد الإلكتروني مستخدم!");
-              done = false;
-            } else if (response?.data?.success) {
-              setUser(response?.data?.success.user);
-              localStorage.setItem("token", response.data.success.token);
-              localStorage.setItem("id", response.data.success.user.user_id);
-              forceUpdate()
-              navigate('/')
-              done = true;
+      axios
+        .post("http://localhost:5500/register", {
+          username: UserName,
+          email: Email,
+          password: Password,
+          school_name: school,
+          gender: Gender,
+          user_img: UserImg,
+          role_id: role_id,
+        })
+        .then((response) => {
+          if (response.data?.conflict) {
+            setErrorMsgE("البريد الإلكتروني مستخدم!");
+            done = false;
+          } else if (response?.data?.success) {
+            setUser(response?.data?.success.user);
+            localStorage.setItem("token", response.data.success.token);
+            localStorage.setItem("id", response.data.success.user.user_id);
+            forceUpdate();
+            if (role_id == "3") {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "تم التسجيل بنجاح",
+                text: "يرجى إكمال عملية الدفع",
+                confirmButtonText: "حسناً",
+                confirmButtonColor: "#FFCD29",
+                iconColor: "#FFCD29",
+                timer: 1500,
+              });
+
+              navigate("/payment");
             } else {
-              done = false;
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "تم التسجيل بنجاح",
+                showConfirmButton: false,
+                iconColor: "#FFCD29",
+                timer: 1500,
+              });
+
+              navigate("/");
             }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-
-
-          if (done) {
-            setEmail("");
-            setSchool("");
-            setUserImg("");
-            setUserName("");
-            setGender("");
-            setJop("");
-            setPassword("");
-    
-            setAuth(true);
-    
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "تم التسجيل بنجاح",
-              showConfirmButton: false,
-              iconColor: '#FFCD29',
-              timer: 1500,
-            });
-    
-            navigate("/");
+            done = true;
+          } else {
+            done = false;
           }
-      }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-   
+      if (done) {
+        setEmail("");
+        setSchool("");
+        setUserImg("");
+        setUserName("");
+        setGender("");
+        setJop("");
+        setPassword("");
+
+        setAuth(true);
+      }
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -364,13 +371,13 @@ const SignUp = ({ setSignUp }) => {
                   </button>
                   <p className="small fw-bold mt-2 pt-1 mb-0">
                     لديك حساب؟{" "}
-                      <Link
-                        onClick={() => setSignUp(true)}
-                        className="small fw-bold me-2 link-primary"
-                        id="createAcc"
-                      >
-                        تسجيل دخول
-                      </Link>
+                    <Link
+                      onClick={() => setSignUp(true)}
+                      className="small fw-bold me-2 link-primary"
+                      id="createAcc"
+                    >
+                      تسجيل دخول
+                    </Link>
                   </p>
                 </div>
               </form>
