@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../../Styles/admin_style.css";
 import Statistics from "../Admin/Statistics";
 import AllUsers from "../Admin/AllUsers";
@@ -6,7 +6,14 @@ import TeachersList from "../Admin/TeachersList";
 import DeletedT from "../Admin/DeletedT";
 import HeadmastersList from "../Admin/HeadmastersList";
 import DeletedH from "../Admin/DeletedH";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
+import logo from "../../images/logo-dashboard.png";
+import Message from "../Admin/Message";
+
 const Admin = () => {
+  const { setUser, setAuth } = useContext(UserContext);
+
   const [navLink, setnavLink] = useState("dashboard");
   const [teachersUpdated, setTeachersUpdated] = useState(false);
   const [headmastersUpdated, setHeadmastersUpdated] = useState(false);
@@ -33,6 +40,7 @@ const Admin = () => {
             className="col-md-3 col-lg-2 d-md-block sidebar collapse"
             style={{ backgroundColor: "black" }}
           >
+            <img src={logo} width={200} alt="" id="logoImg" />
             <div className="position-sticky pt-3 sidebar-sticky">
               <ul className="nav flex-column">
                 <li className="nav-item">
@@ -120,11 +128,10 @@ const Admin = () => {
                       height={22}
                       style={{ verticalAlign: "sub" }}
                       fill="currentColor"
-                      className="bi bi-journals"
+                      className="bi bi-people-fill"
                       viewBox="0 0 16 16"
                     >
-                      <path d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2 2 2 0 0 1-2 2H3a2 2 0 0 1-2-2h1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1H1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z" />
-                      <path d="M1 6v-.5a.5.5 0 0 1 1 0V6h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V9h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 2.5v.5H.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1H2v-.5a.5.5 0 0 0-1 0z" />
+                      <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
                     </svg>{" "}
                     المدراء والمديرات
                   </a>
@@ -135,11 +142,11 @@ const Admin = () => {
                     href="#"
                     id="ordersLink"
                     style={
-                      navLink === "orders"
+                      navLink === "messages"
                         ? { color: "black", backgroundColor: "white" }
                         : { color: "white", backgroundColor: "black" }
                     }
-                    onClick={() => setnavLink("orders")}
+                    onClick={() => setnavLink("messages")}
                   >
                     <span data-feather="file" className="align-text-bottom" />
                     <svg
@@ -148,13 +155,46 @@ const Admin = () => {
                       height={22}
                       style={{ verticalAlign: "sub" }}
                       fill="currentColor"
-                      className="bi bi-cart-plus-fill"
+                      className="bi bi-chat-dots-fill"
                       viewBox="0 0 16 16"
                     >
-                      <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z" />
+                      <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                     </svg>{" "}
-                    الطلبات
+                    الرسائل
                   </a>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      setnavLink("logout");
+                      setUser({});
+                      setAuth(false);
+                      localStorage.clear();
+                    }}
+                    className="nav-link"
+                    id="ordersLink"
+                    style={
+                      navLink === "logout"
+                        ? { color: "black", backgroundColor: "white" }
+                        : { color: "white", backgroundColor: "black" }
+                    }
+                  >
+                    <span data-feather="file" className="align-text-bottom" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={22}
+                      height={22}
+                      style={{ verticalAlign: "sub" }}
+                      fill="currentColor"
+                      className="bi bi-door-open"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
+                      <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z" />{" "}
+                    </svg>{" "}
+                    تسجيل خروج
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -167,7 +207,9 @@ const Admin = () => {
               <>
                 <div className="container" style={{ minHeight: "100vh" }}>
                   <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-white border-2">
-                    <h1 className="h2 fw-bold text-white">لوحة القيادة</h1>
+                    <h1 className="h2 fw-bold text-white" id="simple">
+                      لوحة القيادة
+                    </h1>
                   </div>{" "}
                   <Statistics />
                   <AllUsers />{" "}
@@ -179,7 +221,7 @@ const Admin = () => {
               <>
                 <div className="container" style={{ minHeight: "100vh" }}>
                   <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-white border-2">
-                    <h1 className="h2 fw-bold text-white">
+                    <h1 className="h2 fw-bold text-white" id="simple">
                       المعلمون والمعلمات
                     </h1>
                   </div>
@@ -188,7 +230,7 @@ const Admin = () => {
                     setTeachersUpdated={setTeachersUpdated}
                   />
                   <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mt-5 border-bottom border-white border-2">
-                    <h1 className="h2 fw-bold text-white">
+                    <h1 className="h2 fw-bold text-white" id="simple">
                       {" "}
                       المعلمون والمعلمات المحذوفين{" "}
                     </h1>
@@ -204,16 +246,36 @@ const Admin = () => {
               <>
                 <div className="container" style={{ minHeight: "100vh" }}>
                   <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-white border-2">
-                    <h1 className="h2 fw-bold text-white">المدراء والمديرات</h1>
+                    <h1 className="h2 fw-bold text-white" id="simple">
+                      المدراء والمديرات
+                    </h1>
                   </div>
-                  <HeadmastersList headmastersUpdated={headmastersUpdated} setHeadmastersUpdated={setHeadmastersUpdated} />
+                  <HeadmastersList
+                    headmastersUpdated={headmastersUpdated}
+                    setHeadmastersUpdated={setHeadmastersUpdated}
+                  />
                   <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mt-5 border-bottom border-white border-2">
-                    <h1 className="h2 fw-bold text-white">
+                    <h1 className="h2 fw-bold text-white" id="simple">
                       {" "}
                       المدراء والمديرات المحذوفين{" "}
                     </h1>
                   </div>
-                  <DeletedH headmastersUpdated={headmastersUpdated} setHeadmastersUpdated={setHeadmastersUpdated} />
+                  <DeletedH
+                    headmastersUpdated={headmastersUpdated}
+                    setHeadmastersUpdated={setHeadmastersUpdated}
+                  />
+                </div>
+              </>
+            )}
+            {navLink === "messages" && (
+              <>
+                <div className="container" style={{ minHeight: "100vh" }}>
+                  <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-white border-2">
+                    <h1 className="h2 fw-bold text-white" id="simple">
+                      الرسائل
+                    </h1>
+                  </div>
+                    <Message />
                 </div>
               </>
             )}

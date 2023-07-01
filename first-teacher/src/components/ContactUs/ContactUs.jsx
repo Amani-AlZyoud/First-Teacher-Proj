@@ -3,6 +3,7 @@ import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import MailIcon from '@mui/icons-material/Mail';
 import FaxIcon from '@mui/icons-material/Fax';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
+import Form from './Form';
 
 
 const ContactUs = () => {
@@ -55,6 +56,8 @@ const ContactUs = () => {
     <p />
   </div>
 </div>
+
+<Form/>
 
     </>
   )

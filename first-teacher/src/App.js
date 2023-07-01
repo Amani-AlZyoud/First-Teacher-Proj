@@ -13,6 +13,7 @@ import { UserContext } from "./contexts/UserContext";
 import { useLocation } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import Plans from "./components/LessonsPlan/Plans";
+import About from "./components/About/About";
 function App() {
   const { user, auth } = useContext(UserContext);
 
@@ -41,6 +42,7 @@ function App() {
               <Route exact path="/profile/:id" element={<Profile />} />
               <Route exact path="/payment" element={<Payment />} />
               <Route exact path="/plans/:id" element={<Plans />} />
+              <Route exact path="/About" element={<About />} />
               <Route exact path="/instructions" element={<Instructions />} />
               <Route exact path="*" element={<NoPage />} />
             </Routes>
@@ -59,6 +61,7 @@ function App() {
               <Route exact path="/plan/:id" element={<Home />} />
               <Route exact path="/plan" element={<Home />} />
               <Route exact path="/payment" element={<Forms />} />
+              <Route exact path="/About" element={<About />} />
               <Route exact path="/instructions" element={<Instructions />} />
               <Route exact path="*" element={<NoPage />} />
             </Routes>

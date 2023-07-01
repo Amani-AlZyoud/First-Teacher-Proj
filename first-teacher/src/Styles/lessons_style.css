@@ -63,7 +63,7 @@ input[type="text"]:focus::placeholder, input[type="number"]:focus::placeholder{
     color: transparent;
 }
 
-input, select{
+input, select, #message{
     font-size: smaller;
     box-shadow: inset 0 1px 1px black; 
 }

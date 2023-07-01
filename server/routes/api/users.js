@@ -16,5 +16,7 @@ router.route('/:id')
 
 
 router.route('/payment/:id').post(verifyRoles(ROLES_LIST.Headmaster), usersController.userPayment)   
+router.route('/account/:id').put(verifyRoles(ROLES_LIST.Admin), usersController.AccountStat)   
+  
 
 module.exports = router;

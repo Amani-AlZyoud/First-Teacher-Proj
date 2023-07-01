@@ -98,8 +98,8 @@ const userPayment = async (req, res) => {
     );
 
     const user = await pool.query(
-      "UPDATE users SET account = 'YES' WHERE user_id = $1 AND active = '1'",
-      [id]
+      "UPDATE users SET account = 'YES' WHERE user_id = $1 AND active = '1' AND sub_date = $2",
+      [id, endDate]
     );
 
     res.status(201).json({ success: "Payment Done" });
@@ -116,11 +116,32 @@ const statistics = async (req, res) => {
     const headmasters = await pool.query(
       "SELECT COUNT(*) FROM users WHERE role_id = 3 AND active = '1'"
     );
-    res.status(201).json({ success: {teachersCount: teachers.rows[0].count, headmastersCount: headmasters.rows[0].count } });
+    res.status(201).json({
+      success: {
+        teachersCount: teachers.rows[0].count,
+        headmastersCount: headmasters.rows[0].count,
+      },
+    });
   } catch (err) {
     console.log(err.message);
   }
 };
+
+const AccountStat = async (req, res) => {
+  const { id } = req.params;
+  const { type } = req.body;
+  try {
+    const headmasters = await pool.query(
+      "UPDATE users SET account = $2 WHERE user_id = $1 AND active = '1'",
+      [id, type]
+    );
+    res.status(201).json({ success: "Account status Updated" });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+
 
 module.exports = {
   getAllUsers,
@@ -129,4 +150,6 @@ module.exports = {
   getUser,
   userPayment,
   statistics,
+  AccountStat,
+
 };

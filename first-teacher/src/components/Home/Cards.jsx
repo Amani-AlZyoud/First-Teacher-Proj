@@ -89,42 +89,42 @@ const Cards = () => {
 
 <div className="container-fulid px-4 py-5" id="cards">
   <h2 className="pb-2 border-2 border-bottom border-white text-white">روابط سريعة</h2>
-  <div className="row g-4 py-5 row-cols-1 row-cols-lg-3">
-    <div className="feature col">
+  <div className="row g-4 py-5 row-cols-1 row-cols-lg-4 justify-content-center">
+    <div className="feature col bg-white rounded-2 mx-2" id='dash-box'>
       <div className="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
-      <img src={plan} className="bg-transparent" width="60em" height="50em"/>
+      <img src={plan} className="bg-transparent" width="100" height="80"/>
       </div>
       <h3 className="fs-2 text-black">خطة الدرس</h3>
       <p>
      اكتب خطة الدرس الخاصة بك بسهولة وبطريقة سريعة و منظمة لتسهيل العملية التعليمية.
       </p>
-      { auth ? <HashLink smooth to='/plan/1#' className='icon-link text-white'>انتقل</HashLink>
+      { auth ? <HashLink smooth to='/plan/1#' className='btn btn-warning icon-link text-white mb-2 '>انتقل</HashLink>
         
-        :  <HashLink smooth to='/login#' className='icon-link text-white'>انتقل</HashLink>}
+        :  <HashLink smooth to='/login#' className='btn btn-warning icon-link text-white mb-2 '>انتقل</HashLink>}
     </div>
-    <div className="feature col">
+    <div className="feature col bg-white rounded-2 mx-2" id='dash-box'>
       <div className="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
-      <img src={store} className="bg-transparent" width="60em" height="50em"/>
+      <img src={store} className="bg-transparent" width="100" height="80"/>
       </div>
       <h3 className="fs-2 text-black">متجر المعلم</h3>
       <p>
    كل ما يحتاجه المعلم وأكثر. متجر مخصص لكل مستلزمات المعلمين والمعلمات.
       </p>
-      { auth ? <HashLink smooth to='/shop#' className='icon-link text-white'>انتقل</HashLink>
+      { auth ? <HashLink smooth to='/shop#' className='btn btn-warning icon-link text-white mb-2 '>انتقل</HashLink>
         
-      :  <HashLink smooth to='/login#' className='icon-link text-white'>انتقل</HashLink>}
+      :  <HashLink smooth to='/login#' className='btn btn-warning icon-link text-white mb-2 text-center'>انتقل</HashLink>}
     </div>
-    <div className="feature col">
+    <div className="feature col bg-white rounded-2 mx-2" id='dash-box'>
       <div className="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
-        <img src={exam} className="bg-transparent" width="60em" height="50em"/>
+        <img src={exam} className="bg-transparent" width="100" height="80"/>
       </div>
       <h3 className="fs-2 text-black">إنشاء امتحان</h3>
       <p>
         يمكنك إنشاء امتحاناتك بسهولة، وفّر وقتك وجهدك!
       </p>
-         { auth ? <HashLink smooth to='/exam#' className='icon-link text-white'>انتقل</HashLink>
+         { auth ? <HashLink smooth to='/exam#' className='btn btn-warning icon-link text-white mb-2 '>انتقل</HashLink>
         
-      :  <HashLink smooth to='/login#' className='icon-link text-white'>انتقل</HashLink>}
+      :  <HashLink smooth to='/login#' className='btn btn-warning icon-link text-white mb-2 '>انتقل</HashLink>}
     </div>
   </div>
 </div>

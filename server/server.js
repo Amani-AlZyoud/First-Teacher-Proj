@@ -35,6 +35,10 @@ app.use('/register', require('./routes/register'));
 // Login 
 app.use('/auth', require('./routes/auth'));
 
+
+app.use('/contact', require('./routes/api/contact'));
+
+
 // middleware to verify the JWT TOKEN
 app.use(verifyJWT);
 

@@ -21,7 +21,7 @@ const About = () => {
       <img
         src={t}
         className="d-block mx-lg-auto img-fluid rounded"
-        id="t-img"
+        id="dash-box"
         alt="Bootstrap Themes"
         width={900}
         height={600}

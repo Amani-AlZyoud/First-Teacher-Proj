@@ -162,9 +162,6 @@ const TeachersList = ({teachersUpdated,setTeachersUpdated }) => {
                             <td>{user.username}</td>
                             <td>{user.email}</td>
                             <td>
-                              معلم/ة
-                            </td>
-                            <td>
                               <button
                                 className="btn"
                                 id="btn-toggler"

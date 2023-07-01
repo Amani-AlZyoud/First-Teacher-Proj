@@ -5,9 +5,6 @@ const getAllHeadmasters = async (req, res) => {
   const Headmasters = await pool.query(
     "SELECT * FROM users WHERE active = '1' AND role_id = '3' ORDER BY user_id DESC"
   );
-  if (Headmasters.rows.length === 0)
-    return res.status(204).json({ message: "No Headmasters found." });
-  console.log("no Headmasters found");
   res.status(201).json({ success: Headmasters.rows });
 };
 

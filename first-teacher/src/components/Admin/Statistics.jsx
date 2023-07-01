@@ -86,7 +86,7 @@ const Statistics = () => {
                       المعلمون
                     </h3>
                     <ul className="d-flex list-unstyled mt-auto">
-                      <li className="me-auto">العدد : {teachersCount}</li>
+                      <li className="me-auto fs-5 text-warning">العدد : {teachersCount}</li>
                     </ul>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ const Statistics = () => {
                       المدارس{" "}
                     </h3>
                     <ul className="d-flex list-unstyled mt-auto">
-                      <li className="me-auto">العدد : {headmastersCount}</li>
+                      <li className="me-auto fs-5 text-warning">العدد : {headmastersCount}</li>
                     </ul>
                   </div>
                 </div>

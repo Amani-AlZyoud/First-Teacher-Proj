@@ -74,22 +74,25 @@ const AllUsers = () => {
       setAllUsersCount(users.length);
       setLimitedUsers(users.slice(firstUserIndex, lastUserNumber));
     }
-    if(users.length === 0) {
-        setLimitedUsers([])
+    if (users.length === 0) {
+      setLimitedUsers([]);
     }
   }, [isLoading, firstUserIndex, users, lastUserNumber, refreshData]);
 
   return (
     <>
-      <h2 className="fw-bold mt-3 border-bottom border-white border-2 py-2 text-white">
+      <h2
+        className="fw-bold mt-3 border-bottom border-white border-2 py-2 text-white"
+        id="simple"
+      >
         المستخدمين
       </h2>
 
       <div className="table-responsive small  mb-3">
-        <div class="form-outline mb-4">
+        <div className="form-outline mb-4">
           <input
             type="search"
-            class="form-control"
+            className="form-control"
             placeholder="ابحث"
             id="searchBAR"
             value={search}

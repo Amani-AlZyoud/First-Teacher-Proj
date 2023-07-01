@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "../Styles/style.css";
 import logo from "../images/logo.png";
@@ -8,7 +8,15 @@ import { UserContext } from "../contexts/UserContext";
 
 const Header = () => {
   const { user, setUser, auth, setAuth } = useContext(UserContext);
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
   return (
     <>
       {/* <!-- HEADER SECTION --> */}
@@ -46,6 +54,7 @@ const Header = () => {
                         to={`/profile/${user?.user_id}`}
                         className="dropdown-item text-end"
                         id="link1"
+                        onClick={closeMenu}
                       >
                         {" "}
                         <svg
@@ -72,6 +81,7 @@ const Header = () => {
                           setUser({});
                           setAuth(false);
                           localStorage.clear();
+                          closeMenu();
                         }}
                         className="dropdown-item text-end"
                         id="link2"
@@ -131,8 +141,9 @@ const Header = () => {
             <nav className="navbar navbar-expand-lg top-0" id="nav-edit-color">
               <div className="container-fluid">
                 <button
-                  className="navbar-toggler"
+                  className={`navbar-toggler ${menuOpen ? "collapsed" : ""}`}
                   type="button"
+                  onClick={toggleMenu}
                   id="h-menu"
                   data-bs-toggle="collapse"
                   data-bs-target="#navbarSupportedContent"
@@ -143,7 +154,9 @@ const Header = () => {
                   <span className="navbar-toggler-icon" />
                 </button>
                 <div
-                  className="collapse navbar-collapse"
+                  className={`collapse navbar-collapse ${
+                    menuOpen ? "show" : ""
+                  }`}
                   id="navbarSupportedContent"
                 >
                   <ul className="navbar-nav mb-2 mb-lg-0 ms-2">
@@ -153,6 +166,7 @@ const Header = () => {
                         className="nav-link"
                         aria-current="page"
                         id="nav-edit"
+                        onClick={closeMenu}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -174,6 +188,7 @@ const Header = () => {
                         to="/instructions"
                         className="nav-link"
                         id="nav-edit"
+                        onClick={closeMenu}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -228,6 +243,7 @@ const Header = () => {
                                 localStorage.removeItem("headerForm");
                                 localStorage.removeItem("tableOne");
                                 localStorage.removeItem("tableTwo");
+                                closeMenu();
                               }}
                             >
                               <svg
@@ -249,6 +265,7 @@ const Header = () => {
                               to="login"
                               className="dropdown-item"
                               id="drop-list"
+                              onClick={closeMenu}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -272,6 +289,7 @@ const Header = () => {
                               to="/activites"
                               className="dropdown-item"
                               id="drop-list"
+                              onClick={closeMenu}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -291,6 +309,7 @@ const Header = () => {
                               to="login"
                               className="dropdown-item"
                               id="drop-list"
+                              onClick={closeMenu}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -313,6 +332,7 @@ const Header = () => {
                               to="/exam"
                               className="dropdown-item"
                               id="drop-list"
+                              onClick={closeMenu}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -332,6 +352,7 @@ const Header = () => {
                               to="login"
                               className="dropdown-item"
                               id="drop-list"
+                              onClick={closeMenu}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -353,7 +374,12 @@ const Header = () => {
 
                     {user?.role_id === "3" ? <></> : <></>}
                     <li className="nav-item">
-                      <Link to="shop" className="nav-link" id="nav-edit">
+                      <Link
+                        to="shop"
+                        className="nav-link"
+                        id="nav-edit"
+                        onClick={closeMenu}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width={20}
@@ -371,15 +397,21 @@ const Header = () => {
                     <li className="nav-item me-2">
                       <HashLink
                         smooth
-                        to="/#About"
+                        to="/About"
                         className="nav-link"
                         id="nav-edit"
+                        onClick={closeMenu}
                       >
                         عن الموقع
                       </HashLink>
                     </li>
                     <li className="nav-item">
-                      <Link to="contact" className="nav-link" id="nav-edit">
+                      <Link
+                        to="contact"
+                        className="nav-link"
+                        id="nav-edit"
+                        onClick={closeMenu}
+                      >
                         اتصل بنا{" "}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
