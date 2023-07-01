@@ -4,15 +4,26 @@ const bcrypt = require("bcrypt");
 const getAllUsers = async (req, res) => {
   try {
     const users = await pool.query(
-      "SELECT * FROM users WHERE active = '1' AND role_id = '1'"
+      "SELECT * FROM users WHERE active = '1' AND role_id <> '1' ORDER BY user_id DESC"
     );
-    res.json(users.rows);
+    res.status(201).json({ success: users.rows });
   } catch (err) {
     console.log(err.message);
   }
 };
 
-const deleteUser = async (req, res) => {};
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const users = await pool.query(
+      "UPDATE users SET active = '0' WHERE user_id = $1",
+      [id]
+    );
+    res.status(201).json({ success: "deleted successfully!" });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 const updateUser = async (req, res) => {
   const { id } = req.params;

@@ -8,11 +8,12 @@ router.route('/stat').get(verifyRoles(ROLES_LIST.Admin), usersController.statist
 
 router.route('/')
     .get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
-    .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
 
 router.route('/:id')
     .get(usersController.getUser)
-    .post(usersController.updateUser);
+    .post(usersController.updateUser)
+    .put(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
+
 
 router.route('/payment/:id').post(verifyRoles(ROLES_LIST.Headmaster), usersController.userPayment)   
 

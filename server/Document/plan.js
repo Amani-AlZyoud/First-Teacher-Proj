@@ -1,13 +1,16 @@
 module.exports = ({
   username,
   school_name,
-   mainform,
-   headform,
+  mainform,
+  headform,
   table_one,
   table_two,
-  sign
+  sign,
 }) => {
   const today = new Date();
+  if (sign == "") {
+    sign = "https://alawaben.com/awabeen_images/197401189206.jpg";
+  }
   return `
   <!DOCTYPE html>
   <html lang="ar" dir="rtl">
@@ -60,19 +63,41 @@ li{
   <div style="display: flex; justify-content: center;">
     <div class="row" style="margin-right: 15rem; margin-top: 23px;">
         <li><span style="font-weight: bold;">اسم المعلم/ المعلمة :</span> ${username}</li>
-        <li><span style="font-weight: bold;">المبحث / المباحث التي يدرسها : </span> ${mainform.materials}</li>
-        <li><span style="font-weight: bold;">الصفوف والشعب : </span> ${mainform.classes}</li>
+        <li><span style="font-weight: bold;">المبحث / المباحث التي يدرسها : </span> ${
+          mainform.materials
+        }</li>
+        <li><span style="font-weight: bold;">الصفوف والشعب : </span> ${
+          mainform.classes
+        }</li>
     </div>
     <div class="row" style="margin-right: 23px">
     <li><span style="font-weight: bold;">اسم المدرسة :</span> ${school_name}</li>
-    <li><span style="font-weight: bold;">اسم المديرية :  </span> مديرية التربية والتعليم لمنطقة ${mainform.gov} </li>
-    <li><span style="font-weight: bold;">العام الدراسي : </span>2022/2023 <span style="font-weight: bold;">، الفصل :</span> ${mainform.studyYear}</li>
+    <li><span style="font-weight: bold;">اسم المديرية :  </span> مديرية التربية والتعليم لمنطقة ${
+      mainform.gov
+    } </li>
+    <li><span style="font-weight: bold;">العام الدراسي : </span>2022/2023 <span style="font-weight: bold;">، الفصل :</span> ${
+      mainform.studyYear
+    }</li>
     </div>
     </div>
   <h3 style="text-align: center; margin-top: 3rem;">خطة الدرس</h3>
 
-    <p style="direction: rtl;">الصف / المستوى : ${headform.level}.&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; المبحث : ${headform.materialType}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الوحدة : ${headform.unit}.&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الدرس : ${headform.lessonName}.</p>
-    <p style="direction: rtl;">عدد الحصص : ${headform.lessonsCount}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; التاريخ : من :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${headform.dataFrom}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; إلى :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${headform.dataTo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <p style="direction: rtl;">الصف / المستوى : ${
+      headform.level
+    }.&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; المبحث : ${
+    headform.materialType
+  }.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الوحدة : ${
+    headform.unit
+  }.&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; عنوان الدرس : ${
+    headform.lessonName
+  }.</p>
+    <p style="direction: rtl;">عدد الحصص : ${
+      headform.lessonsCount
+    }.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; التاريخ : من :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${
+    headform.dataFrom
+  }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; إلى :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${
+    headform.dataTo
+  }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
 
     <table style="direction: rtl; width: 740.8px; border-color: black; margin-left: auto; margin-right: auto;" border="5" cellspacing="2" cellpadding="2">
@@ -141,7 +166,7 @@ ${table_one.map((row) => {
       </td>
 </tr>
  
-   `
+   `;
 })}
 </tbody>
 </table>

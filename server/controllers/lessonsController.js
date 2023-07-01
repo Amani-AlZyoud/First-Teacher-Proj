@@ -100,6 +100,73 @@ const SignedPlans = async (req, res) => {
   res.json({ success: lessons.rows });
 };
 
+
+const WeekPlans = async (req, res) => {
+  const { id } = req.params;
+  const sql =
+    "SELECT * FROM lessons WHERE user_id = $1 AND sign = '0' ORDER BY lesson_id DESC";
+  const lessons = await pool.query(sql, [id]);
+  const weekPlans = [];
+  lessons?.rows.map((p) => {
+    const result = isInCurrentWeek(
+      p.table_two[p.table_two.length - 1].datte
+    );
+    if (result) {
+      weekPlans.push(p);
+    }
+  });
+
+  res.json({ success: weekPlans });
+};
+
+const MonthPlans = async (req, res) => {
+  const { id } = req.params;
+  const sql =
+    "SELECT * FROM lessons WHERE user_id = $1 AND sign = '0' ORDER BY lesson_id DESC";
+  const lessons = await pool.query(sql, [id]);
+  const monthplans = [];
+  lessons?.rows.map((p) => {
+    const result = isCurrentMonth(
+      p.table_two[p.table_two.length - 1].datte
+    );
+    if (result) {
+      monthplans.push(p);
+    }
+  });
+
+  res.json({ success: monthplans });
+};
+
+
+// Return true if the plan lays in the current month
+function isCurrentMonth(datte) {
+  const currentDate = new Date();
+  const date = new Date(datte);
+  return (
+    date.getMonth() === currentDate.getMonth() &&
+    date.getFullYear() === currentDate.getFullYear()
+  );
+}
+
+// Return true if the plan lays in the current week
+const getCurrentWeekDates = () => {
+  const today = new Date();
+  const currentDay = today.getDay();
+  const diff = today.getDate() - currentDay;
+  const startDate = new Date(today.setDate(diff));
+  const endDate = new Date(today.setDate(startDate.getDate() + 6));
+  return {
+    startDate,
+    endDate,
+  };
+};
+
+const isInCurrentWeek = (dateToCheck) => {
+  const { startDate, endDate } = getCurrentWeekDates();
+  const checkDate = new Date(dateToCheck);
+  return checkDate >= startDate && checkDate <= endDate;
+};
+
 module.exports = {
   setLesson,
   getLesson,
@@ -108,4 +175,6 @@ module.exports = {
   createPDFLesson,
   signPlan,
   SignedPlans,
+  WeekPlans,
+  MonthPlans
 };

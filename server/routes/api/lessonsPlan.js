@@ -32,4 +32,8 @@ router
   .get(verifyRoles(ROLES_LIST.Headmaster, ROLES_LIST.Teacher), lessonsController.SignedPlans);
 
 
+router.route('/weekPlans/:id').get(verifyRoles(ROLES_LIST.Headmaster), lessonsController.WeekPlans);  
+router.route('/monthPlans/:id').get(verifyRoles(ROLES_LIST.Headmaster), lessonsController.MonthPlans);  
+
+
 module.exports = router;

@@ -28,47 +28,49 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
-        <ScrollToTop />
-     { auth && (user.role_id === "2" || user.role_id === "3") &&  
-       <>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Home />} />
-          <Route exact path="/plan/:id" element={<Lessons />} />
-          <Route exact path="/plan" element={<Lessons />} />
-          <Route exact path="/contact" element={<ContactUs />} />
-          <Route exact path="/profile/:id" element={<Profile />} />
-          <Route exact path="/payment" element={<Payment />} />
-          <Route exact path="/plans/:id" element={<Plans />} />
-          <Route exact path="/instructions" element={<Instructions />} />
-          <Route exact path="*" element={<NoPage />} />
-        </Routes>
-        <Footer />     
-       </>
-        }
-     { !auth && <>
-      <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Forms />} />
-          <Route exact path="/contact" element={<ContactUs />} />
-          <Route exact path="/profile/:id" element={<Forms />} />
-          <Route exact path="/plan/:id" element={<Home />} />
-          <Route exact path="/plan" element={<Home />} />
-          <Route exact path="/payment" element={<Forms />} />
-          <Route exact path="/instructions" element={<Instructions />} />
-          <Route exact path="*" element={<NoPage />} />
-        </Routes>
-        <Footer />
-
-     </>
-        }
-     { auth && user.role_id === "1" && 
-        <Routes>
-          <Route exact path="/profile/:id" element={<Profile />} />
-          <Route exact path="*" element={<Profile />} />
-        </Routes>
-        }
+        {auth && (user.role_id === "2" || user.role_id === "3") && (
+          <>
+            <Header />
+            <ScrollToTop />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/login" element={<Home />} />
+              <Route exact path="/plan/:id" element={<Lessons />} />
+              <Route exact path="/plan" element={<Lessons />} />
+              <Route exact path="/contact" element={<ContactUs />} />
+              <Route exact path="/profile/:id" element={<Profile />} />
+              <Route exact path="/payment" element={<Payment />} />
+              <Route exact path="/plans/:id" element={<Plans />} />
+              <Route exact path="/instructions" element={<Instructions />} />
+              <Route exact path="*" element={<NoPage />} />
+            </Routes>
+            <Footer />
+          </>
+        )}
+        {!auth && (
+          <>
+            <Header />
+            <ScrollToTop />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/login" element={<Forms />} />
+              <Route exact path="/contact" element={<ContactUs />} />
+              <Route exact path="/profile/:id" element={<Forms />} />
+              <Route exact path="/plan/:id" element={<Home />} />
+              <Route exact path="/plan" element={<Home />} />
+              <Route exact path="/payment" element={<Forms />} />
+              <Route exact path="/instructions" element={<Instructions />} />
+              <Route exact path="*" element={<NoPage />} />
+            </Routes>
+            <Footer />
+          </>
+        )}
+        {auth && user.role_id === "1" && (
+          <Routes>
+            <Route exact path="/profile/:id" element={<Profile />} />
+            <Route exact path="*" element={<Profile />} />
+          </Routes>
+        )}
       </BrowserRouter>
     </>
   );

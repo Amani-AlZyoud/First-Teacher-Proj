@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "../../Styles/admin_style.css";
 import Statistics from "../Admin/Statistics";
+import AllUsers from "../Admin/AllUsers";
+import TeachersList from "../Admin/TeachersList";
+import DeletedT from "../Admin/DeletedT";
+import HeadmastersList from "../Admin/HeadmastersList";
+import DeletedH from "../Admin/DeletedH";
 const Admin = () => {
-  const [navLink, setnavLink] = useState("teachers");
+  const [navLink, setnavLink] = useState("dashboard");
+  const [teachersUpdated, setTeachersUpdated] = useState(false);
+  const [headmastersUpdated, setHeadmastersUpdated] = useState(false);
   return (
     <>
-      <header className="navbar navbar-dark  bg-dark flex-md-nowrap p-0 shadow">
+      <header className="navbar navbar-dark bg-black flex-md-nowrap p-0 h-100 shadow">
         <button
           className="navbar-toggler d-md-none collapsed"
           type="button"
@@ -97,11 +104,11 @@ const Admin = () => {
                     href="#"
                     id="lessonPlanLink"
                     style={
-                      navLink === "plans"
+                      navLink === "headmasters"
                         ? { color: "black", backgroundColor: "white" }
                         : { color: "white", backgroundColor: "black" }
                     }
-                    onClick={() => setnavLink("plans")}
+                    onClick={() => setnavLink("headmasters")}
                   >
                     <span
                       data-feather="bar-chart-2"
@@ -119,7 +126,7 @@ const Admin = () => {
                       <path d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2 2 2 0 0 1-2 2H3a2 2 0 0 1-2-2h1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1H1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z" />
                       <path d="M1 6v-.5a.5.5 0 0 1 1 0V6h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V9h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 2.5v.5H.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1H2v-.5a.5.5 0 0 0-1 0z" />
                     </svg>{" "}
-                    الخطط الدراسية
+                    المدراء والمديرات
                   </a>
                 </li>
                 <li className="nav-item">
@@ -152,14 +159,64 @@ const Admin = () => {
               </ul>
             </div>
           </nav>
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2 fw-bold">لوحة القيادة</h1>
-            </div>
+          <main
+            className="col-md-9 ms-sm-auto col-lg-10 px-md-4"
+            style={{ backgroundColor: "#ffcd29" }}
+          >
+            {navLink === "dashboard" && (
+              <>
+                <div className="container" style={{ minHeight: "100vh" }}>
+                  <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-white border-2">
+                    <h1 className="h2 fw-bold text-white">لوحة القيادة</h1>
+                  </div>{" "}
+                  <Statistics />
+                  <AllUsers />{" "}
+                </div>
+              </>
+            )}
 
-            <div className="container" style={{ height: "100vh" }}>
-              <Statistics />
-            </div>
+            {navLink === "teachers" && (
+              <>
+                <div className="container" style={{ minHeight: "100vh" }}>
+                  <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-white border-2">
+                    <h1 className="h2 fw-bold text-white">
+                      المعلمون والمعلمات
+                    </h1>
+                  </div>
+                  <TeachersList
+                    teachersUpdated={teachersUpdated}
+                    setTeachersUpdated={setTeachersUpdated}
+                  />
+                  <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mt-5 border-bottom border-white border-2">
+                    <h1 className="h2 fw-bold text-white">
+                      {" "}
+                      المعلمون والمعلمات المحذوفين{" "}
+                    </h1>
+                  </div>
+                  <DeletedT
+                    teachersUpdated={teachersUpdated}
+                    setTeachersUpdated={setTeachersUpdated}
+                  />
+                </div>
+              </>
+            )}
+            {navLink === "headmasters" && (
+              <>
+                <div className="container" style={{ minHeight: "100vh" }}>
+                  <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-white border-2">
+                    <h1 className="h2 fw-bold text-white">المدراء والمديرات</h1>
+                  </div>
+                  <HeadmastersList headmastersUpdated={headmastersUpdated} setHeadmastersUpdated={setHeadmastersUpdated} />
+                  <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mt-5 border-bottom border-white border-2">
+                    <h1 className="h2 fw-bold text-white">
+                      {" "}
+                      المدراء والمديرات المحذوفين{" "}
+                    </h1>
+                  </div>
+                  <DeletedH headmastersUpdated={headmastersUpdated} setHeadmastersUpdated={setHeadmastersUpdated} />
+                </div>
+              </>
+            )}
           </main>
         </div>
       </div>

@@ -6,7 +6,7 @@ const getAllTeachers = async (req, res) => {
         "SELECT * FROM users WHERE active = '1' AND role_id = '2' ORDER BY user_id DESC"
       );
     if (Teachers.rows.length === 0) return res.json({ 'message': 'No Teachers found.' });
-    res.json(Teachers.rows);
+    res.json({ "success": Teachers.rows});
 }
 
 const createNewTeacher = async (req, res) => {
@@ -32,37 +32,13 @@ const createNewTeacher = async (req, res) => {
     }
 }
 
-const updateTeacher = async (req, res) => {
-    const { username, email, password, school_name, gender, user_img} = req.body;
-    const { id } = req.params;
-
-    if (!id) {
-        return res.json({ 'message': 'ID parameter is required.' });
-    }
-
-    const teacher = await pool.query("SELECT * FROM users WHERE user_id = $1 AND role_id = '2' ", [id]);
-
-    if (teacher.rows.length === 0) {
-        return res.json({ "message": `No teacher matches ID ${id}.` });
-    }
-
-    const hashedPwd = await bcrypt.hash(password, 10);
-    const sql = "UPDATE users SET username = $1, email = $2, password = $3, school_name = $4, gender = $5, role_id = '2', user_img = $6 WHERE user_id = $7"
-    const updatedTeacher = await pool.query(sql, [username, email, hashedPwd, school_name, gender, user_img, id])
-    res.json({ "message": `Teacher ID ${id} Updated.`});
-}
 
 const deleteTeacher = async (req, res) => {
     const { id } = req.params;
     if (!id) return res.json({ 'message': 'Teacher ID required.' });
-
-    const teacher = await pool.query("SELECT * FROM users WHERE user_id = $1 AND role_id = '2'", [id]);
-    if (teacher.rows.length === 0) {
-        return res.json({ "message": `No teacher matches ID ${id}.` });
-    }
     const sql = "UPDATE users SET active = '0' WHERE user_id = $1";
     const deletedTeacher = await pool.query(sql, [id]);
-    res.json({ "message": `Teacher ID ${id} Deleted.`});
+    res.json({ "success": `Teacher ID ${id} Deleted.`});
 }
 
 const getTeacher = async (req, res) => {
@@ -89,13 +65,29 @@ const getGroup = async (req, res) => {
 }
 
    
+const deletedTeachers = async (req, res) => {
+    const Teachers = await pool.query(
+        "SELECT * FROM users WHERE active = '0' AND role_id = '2' ORDER BY user_id DESC"
+      );
+    if (Teachers.rows.length === 0) return res.json({ 'message': 'No Teachers found.' });
+    res.json({ "success": Teachers.rows});
+}
+
+const activeTeacher = async (req, res) => {
+    const { id } = req.params;
+    if (!id) return res.json({ 'message': 'Teacher ID required.' });
+    const sql = "UPDATE users SET active = '1' WHERE user_id = $1";
+    const deletedTeacher = await pool.query(sql, [id]);
+    res.json({ "success": `Teacher ID ${id} Activited.`});
+}
 
 
 module.exports = {
     getAllTeachers,
     createNewTeacher,
-    updateTeacher,
     deleteTeacher,
     getTeacher,
     getGroup,
+    deletedTeachers,
+    activeTeacher
 }

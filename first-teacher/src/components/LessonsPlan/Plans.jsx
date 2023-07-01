@@ -1,22 +1,20 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
-import { Form, Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import Table from "react-bootstrap/Table";
-import { CircularProgress } from "@mui/material";
 import { saveAs } from "file-saver";
 import Swal from "sweetalert2";
+import WeekPlans from "./WeekPlans";
+import MonthPlans from "./MonthPlans";
+import SignedPlan from "./SignedPlan";
 
 const Plans = () => {
-  const { id } = useParams();
-  const [plan, setPlan] = useState([]);
+
   const { user } = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(true);
   const [sign, setSign] = useState("");
   const [downloading, setDownloading] = useState();
-  const [signed, setSigned] = useState([]);
-  const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0)
+  const [refreshData, setRefreshData] = useState(false);
+
 
   const getImg = (e) => {
     const files = e.target.files;
@@ -62,110 +60,6 @@ const Plans = () => {
       });
   };
 
-  const getAllPlans = () => {
-    axios
-      .get(`http://localhost:5500/lessons/userPlans/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        if (response.data.success) {
-          setPlan(response.data.success);
-          plan.map((p) => {
-            const result = isCurrentMonth(
-              p.table_two[p.table_two.length - 1].datte
-            );
-            if (result) {
-              setMonthPlans((current) => {
-                return [...current, p];
-              });
-            }
-          });
-          setIsLoading(false);
-        }
-
-        if (response.data.message) {
-          console.log(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get(`http://localhost:5500/lessons/sign/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        if (response.data.success) {
-          setSigned(response.data.success);
-          
-        }
-
-        if (response.data.message) {
-          console.log(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  useEffect(() => {
-    
-    getAllPlans();
-    if (!isLoading && plan.length > 0) {
-      plan.map((p) => {
-        const result = isInCurrentWeek(
-          p.table_two[p.table_two.length - 1].datte
-        );
-        if (result) {
-          setWeekPlans((current) => {
-            return [...current, p];
-          });
-        }
-      });
-
-      
-
-      console.log(monthPlans);
-    }
-  }, [isLoading,reducerValue]);
-
-  const [monthPlans, setMonthPlans] = useState([]);
-  const [weekPlans, setWeekPlans] = useState([]);
-
-  
-
-  const getCurrentWeekDates = () => {
-    const today = new Date();
-    const currentDay = today.getDay();
-    const diff = today.getDate() - currentDay;
-    const startDate = new Date(today.setDate(diff));
-    const endDate = new Date(today.setDate(diff + 6));
-    return {
-      startDate,
-      endDate,
-    };
-  };
-
-  const isInCurrentWeek = (dateToCheck) => {
-    const { startDate, endDate } = getCurrentWeekDates();
-    const checkDate = new Date(dateToCheck);
-    return checkDate >= startDate && checkDate <= endDate;
-  };
-
-  function isCurrentMonth(datte) {
-    const currentDate = new Date();
-    const date = new Date(datte);
-    return (
-      date.getMonth() === currentDate.getMonth() &&
-      date.getFullYear() === currentDate.getFullYear()
-    );
-  }
-
   const SignPlan = (planId) => {
     axios
       .put(
@@ -183,9 +77,17 @@ const Plans = () => {
           icon: "success",
           showConfirmButton: false,
         });
+        handleRefreshData();
       })
       .catch((err) => console.log(err.message));
   };
+
+
+  const handleRefreshData = () => {
+     setRefreshData((prevValue) => !prevValue);
+   };
+   
+
 
   return (
     <>
@@ -194,219 +96,14 @@ const Plans = () => {
         id="uncontrolled-tab-example"
         className="my-3 border-bottom border-2 border-white"
       >
-        <Tab eventKey="هذا الأسبوع" title="هذا الأسبوع">
-          <div
-            className="bg-black container mb-3"
-            style={{ height: "80vh", overflowY: "scroll" }}
-          >
-            {weekPlans?.length === 0 && (
-              <h1 className="text-white text-center mt-5">
-                لا يوجد نماذج لهذا الأسبوع
-              </h1>
-            )}
-            {!isLoading && weekPlans.length > 0 && (
-              <>
-                <>
-                  <Table striped bordered hover>
-                    <thead className="bg-white">
-                      <tr className="text-white">
-                        <th className="text-black">#</th>
-                        <th className="text-black">رقم خطة الدرس</th>
-                        <th className="text-black">التاريخ</th>
-                        <th className="text-black">معاينة</th>
-                        <th className="text-black">توقيع</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white">
-                      {weekPlans.map((p) => {
-                        return (
-                          <tr key={p.lesson_id}>
-                            <td></td>
-                            <td className="text-black">{p.lesson_id}</td>
-                            <td className="text-black">
-                              {p.table_two[p.table_two.length - 1].datte}
-                            </td>
-                            <td>
-                              <button
-                                className="btn btn-dark mt-2 text-white fw-bold"
-                                id="createPlan"
-                                onClick={() => createAndDownloadPdf(p)}
-                              >
-                                {downloading === p.lesson_id ? (
-                                  <CircularProgress
-                                    size="1.5rem"
-                                    color="success"
-                                  />
-                                ) : (
-                                  "معاينة"
-                                )}
-                              </button>
-                            </td>
-                            <td>
-                              <>
-                                <span>
-                                  <Form.Control
-                                    type="file"
-                                    id="InputField"
-                                    className="w-50"
-                                    onChange={(e) => getImg(e)}
-                                    accept="image/*"
-                                  />{" "}
-                                  <button
-                                    className="btn btn-warning mt-2 text-white fw-bold"
-                                    id="createPlan"
-                                    onClick={() => {
-                                      SignPlan(p.lesson_id)}}
-                                  >
-                                    شوهد
-                                  </button>
-                                </span>
-                              </>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </>
-              </>
-            )}
-          </div>
+        <Tab  eventKey="هذا الأسبوع" title="هذا الأسبوع">
+          <WeekPlans downloading={downloading} createAndDownloadPdf={createAndDownloadPdf} SignPlan={SignPlan} getImg={getImg}/>
         </Tab>
         <Tab eventKey="هذا الشهر" title="هذا الشهر">
-          <div
-            className="bg-black container mb-3"
-            style={{ height: "80vh", overflowY: "scroll" }}
-          >
-            {monthPlans?.length === 0 && (
-              <h1 className="text-white text-center mt-5">
-                لا يوجد نماذج لهذا الشهر
-              </h1>
-            )}
-            {!isLoading && monthPlans.length > 0 && (
-              <>
-                <>
-                  <Table striped bordered hover>
-                    <thead className="bg-white">
-                      <tr className="text-white">
-                        <th className="text-black">#</th>
-                        <th className="text-black">رقم خطة الدرس</th>
-                        <th className="text-black">التاريخ</th>
-                        <th className="text-black">معاينة</th>
-                        <th className="text-black">توقيع</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white">
-                      {monthPlans.map((p) => {
-                        return (
-                          <tr key={p.lesson_id}>
-                            <td></td>
-                            <td className="text-black">{p.lesson_id}</td>
-                            <td className="text-black">
-                              {p.table_two[p.table_two.length - 1].datte}
-                            </td>
-                            <td>
-                              <button
-                                className="btn btn-dark mt-2 text-white fw-bold"
-                                id="createPlan"
-                                onClick={() => createAndDownloadPdf(p)}
-                              >
-                                {downloading === p.lesson_id ? (
-                                  <CircularProgress
-                                    size="1.5rem"
-                                    color="success"
-                                  />
-                                ) : (
-                                  "معاينة"
-                                )}
-                              </button>
-                            </td>
-                            <td>
-                              <>
-                                <span>
-                                  <Form.Control
-                                    type="file"
-                                    id="InputField"
-                                    className="w-50"
-                                    onChange={(e) => getImg(e)}
-                                    accept="image/*"
-                                  />{" "}
-                                  <button
-                                    className="btn btn-warning mt-2 text-white fw-bold"
-                                    id="createPlan"
-                                    onClick={() => {
-                                      SignPlan(p.lesson_id)
-                                      forceUpdate()}}
-                                  >
-                                    شوهد
-                                  </button>
-                                </span>
-                              </>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </>
-              </>
-            )}
-          </div>
+          <MonthPlans downloading={downloading} createAndDownloadPdf={createAndDownloadPdf} SignPlan={SignPlan} getImg={getImg}/>
         </Tab>
-        <Tab eventKey="شوهد" title="شوهد">
-          <div
-            className="bg-black container mb-3"
-            style={{ height: "80vh", overflowY: "scroll" }}
-          >
-            {signed?.length === 0 && (
-              <h1 className="text-white text-center mt-5">لا يوجد نماذج موقعة</h1>
-            )}
-            {!isLoading && signed.length > 0 && (
-              <>
-                <>
-                  <Table striped bordered hover>
-                    <thead className="bg-white">
-                      <tr className="text-white">
-                        <th className="text-black">#</th>
-                        <th className="text-black">رقم خطة الدرس</th>
-                        <th className="text-black">التاريخ</th>
-                        <th className="text-black">معاينة</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white">
-                      {signed.map((p) => {
-                        return (
-                          <tr key={p.lesson_id}>
-                            <td></td>
-                            <td className="text-black">{p.lesson_id}</td>
-                            <td className="text-black">
-                              {p.table_two[p.table_two.length - 1].datte}
-                            </td>
-                            <td>
-                              <button
-                                className="btn btn-dark mt-2 text-white fw-bold"
-                                id="createPlan"
-                                onClick={(e) => createAndDownloadPdf(p)}
-                              >
-                                {downloading === p.lesson_id ? (
-                                  <CircularProgress
-                                    size="1.5rem"
-                                    color="success"
-                                  />
-                                ) : (
-                                  "معاينة"
-                                )}
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </>
-              </>
-            )}
-          </div>
+        <Tab  eventKey="شوهد" title="شوهد">
+         <SignedPlan refreshData={refreshData} downloading={downloading} createAndDownloadPdf={createAndDownloadPdf}/> 
         </Tab>
       </Tabs>
     </>
