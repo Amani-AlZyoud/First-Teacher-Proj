@@ -15,8 +15,17 @@ const AddMessage = async (req, res) => {
 };
 const getmessages = async (req, res) => {
   try {
-    const messages = await pool.query("SELECT * FROM messages");
+    const messages = await pool.query("SELECT * FROM messages WHERE reply = '0'");
     res.status(201).json({ success: messages.rows });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+const replymessage = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const messages = await pool.query("UPDATE messages SET reply = '1' WHERE message_id = $1", [id]);
+    res.status(201).json({ success: "updated successfully"});
   } catch (err) {
     console.log(err.message);
   }
@@ -25,4 +34,5 @@ const getmessages = async (req, res) => {
 module.exports = {
   AddMessage,
   getmessages,
+  replymessage
 };

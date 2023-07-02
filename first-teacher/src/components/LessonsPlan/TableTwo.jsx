@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { HashLink } from "react-router-hash-link";
 import Swal from "sweetalert2";
 import { v4 as uuid } from "uuid";
 const TableTwo = ({ setTableT }) => {
@@ -110,7 +111,7 @@ const TableTwo = ({ setTableT }) => {
   return (
     <>
       {/* form for table #2 */}
-      <form id="table1Form" onSubmit={handleTableTwo}>
+      <form id="tableTWO" onSubmit={handleTableTwo}>
         <h6 className="fs-4 fw-bold text-end my-5">
           ( جــدول المتابعــة اليومــي )
         </h6>
@@ -234,13 +235,15 @@ const TableTwo = ({ setTableT }) => {
                     </button>
                   </td>
                   <td>
-                    <button
-                      className="btn btn-warning text-white"
-                      id="createPlan"
-                      onClick={() => handleUpdate(row.id)}
-                    >
-                      تعديل
-                    </button>
+                    <HashLink to="#tableTWO">
+                      <button
+                        className="btn btn-warning text-white"
+                        id="createPlan"
+                        onClick={() => handleUpdate(row.id)}
+                      >
+                        تعديل
+                      </button>
+                    </HashLink>
                   </td>
                 </tr>
               );

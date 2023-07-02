@@ -18,7 +18,7 @@ const Statistics = () => {
           font: {
             family: "Alexandria, sans-serif",
             weight: "bold",
-            size: 15,
+            size: 12,
           },
         },
       },
@@ -82,7 +82,7 @@ const Statistics = () => {
                   }}
                 >
                   <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                    <h3 className="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
+                    <h3 className="pt-5 mt-5 mb-4 fs-2 lh-1 fw-bold">
                       المعلمون
                     </h3>
                     <ul className="d-flex list-unstyled mt-auto">
@@ -106,7 +106,7 @@ const Statistics = () => {
                   }}
                 >
                   <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                    <h3 className="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
+                    <h3 className="pt-5 mt-5 mb-4 fs-2 lh-1 fw-bold">
                       المدارس{" "}
                     </h3>
                     <ul className="d-flex list-unstyled mt-auto">

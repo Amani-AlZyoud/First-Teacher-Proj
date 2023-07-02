@@ -5,7 +5,7 @@ import { Form, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const WeekPlans = ({ downloading, createAndDownloadPdf, SignPlan, getImg }) => {
+const WeekPlans = ({ downloading, createAndDownloadPdf, SignPlan, getImg, refreshData2}) => {
   const [weekPlans, setWeekPlans] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshData, setRefreshData] = useState(false);
@@ -29,7 +29,7 @@ const WeekPlans = ({ downloading, createAndDownloadPdf, SignPlan, getImg }) => {
         }
       })
       .catch((err) => console.log(err.message));
-  }, [refreshData]);
+  }, [refreshData, refreshData2]);
 
   return (
     <div
@@ -92,11 +92,6 @@ const WeekPlans = ({ downloading, createAndDownloadPdf, SignPlan, getImg }) => {
                               onClick={() => {
                                 SignPlan(p.lesson_id);
                                 handleRefreshData();
-                                Swal.fire({
-                                  title: "تم التوقيع بنجاح",
-                                  icon: "success",
-                                  showConfirmButton: false,
-                                });
                               }}
                             >
                               شوهد

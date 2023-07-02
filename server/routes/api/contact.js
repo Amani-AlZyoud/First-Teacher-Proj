@@ -10,4 +10,10 @@ router
   .route("/messages")
   .get(verifyJWT, verifyRoles(ROLES_LIST.Admin), ContactController.getmessages);
 
+router
+  .route("/:id")
+  .put(
+    ContactController.replymessage
+  );
+
 module.exports = router;

@@ -6,7 +6,7 @@ const Footer = () => {
   const { auth, setAuth } = useContext(UserContext);
 
   return (
-    <footer className="py-3 bg-white" id="footerEdit">
+    <footer className="py-3 bg-black" id="footerEdit">
       <ul className="nav justify-content-center border-bottom pb-3 ">
         <li className="nav-item">
           <HashLink smooth to="/#" className="nav-link px-2" id="footer-link">
@@ -52,7 +52,7 @@ const Footer = () => {
         <li className="nav-item">
           <HashLink
             smooth
-            to="/#About"
+            to="/About"
             className="nav-link px-2"
             id="footer-link"
           >
@@ -70,7 +70,7 @@ const Footer = () => {
           </HashLink>
         </li>
       </ul>
-      <p className="text-center text-body-secondary">
+      <p className="text-center text-white">
         {" "}
         المعلم الأول - جميع الحقوق محفوظة © 2023
       </p>

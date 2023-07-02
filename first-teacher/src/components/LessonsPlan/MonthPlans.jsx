@@ -10,6 +10,7 @@ const MonthPlans = ({
   createAndDownloadPdf,
   SignPlan,
   getImg,
+  refreshData2,
 }) => {
   const [monthPlans, setMonthPlans] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +35,7 @@ const MonthPlans = ({
         }
       })
       .catch((err) => console.log(err.message));
-  }, [refreshData]);
+  }, [refreshData, refreshData2]);
 
   return (
     <div
@@ -97,11 +98,6 @@ const MonthPlans = ({
                               onClick={() => {
                                 SignPlan(p.lesson_id);
                                 handleRefreshData();
-                                Swal.fire({
-                                  title: "تم التوقيع بنجاح",
-                                  icon: "success",
-                                  showConfirmButton: false,
-                                });
                               }}
                             >
                               شوهد

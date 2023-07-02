@@ -34,36 +34,37 @@ const HeadForm = ({ setHeadForm }) => {
   const handleHeaderForm = (event) => {
     event.preventDefault();
     let done = true;
-    if (level === undefined) {
+    console.log()
+    if (level === "" || level === "none" || level === undefined) {
       done = false;
       setLevelE("حقل إجباري");
     }
-    if (materialType === undefined) {
+    if (materialType === undefined || materialType === "" || materialType === "none") {
       done = false;
       setMaterialTypeE("حقل إجباري");
     }
 
-    if (unit === undefined) {
+    if (unit === undefined || unit === "") {
       done = false;
       setUnitE("حقل إجباري");
     }
 
-    if (lessonName === undefined) {
+    if (lessonName === undefined || lessonName === "") {
       done = false;
       setLessonNameE("حقل إجباري");
     }
 
-    if (lessonsCount === undefined) {
+    if (lessonsCount === undefined || lessonsCount === "") {
       done = false;
       setLessonsCountE("حقل إجباري");
     }
 
-    if (dataFrom === undefined) {
+    if (dataFrom === undefined || dataFrom === "") {
       done = false;
       setDataFromE("حقل إجباري");
     }
 
-    if (dataTo === undefined) {
+    if (dataTo === undefined || dataTo === "") {
       done = false;
       setDataToE("حقل إجباري");
     }

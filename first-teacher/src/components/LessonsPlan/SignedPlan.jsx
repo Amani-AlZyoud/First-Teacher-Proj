@@ -3,13 +3,31 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import PaginationComponent from "../PaginationComponent";
 
-const SignedPlan = ({ downloading, createAndDownloadPdf, refreshData}) => {
+const SignedPlan = ({ downloading, createAndDownloadPdf, refreshData }) => {
   const [signed, setSigned] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
 
+  const [allPlansCount, setAllPlansCount] = useState(1);
+  const [PlansPerPage, setPlansPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const lastPlanNumber = currentPage * PlansPerPage;
+  const firstPlanIndex = lastPlanNumber - PlansPerPage;
+  const [limitedPlans, setLimitedPlans] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (!isLoading && signed.length > 0) {
+      setAllPlansCount(signed.length);
+      setLimitedPlans(signed.slice(firstPlanIndex, lastPlanNumber));
+    }
+    if (signed.length === 0) {
+      setLimitedPlans([]);
+    }
+  }, [isLoading, firstPlanIndex, signed, lastPlanNumber]);
 
   useEffect(() => {
     axios
@@ -33,16 +51,12 @@ const SignedPlan = ({ downloading, createAndDownloadPdf, refreshData}) => {
       });
   }, [refreshData]);
 
-
-
-
   return (
     <div
-      className="bg-black container mb-3"
-      style={{ height: "80vh", overflowY: "scroll" }}
+      className="bg-dark rounded-bottom-4 container mb-3" style={{minHeight: "50vh"}} id="dash-box"
     >
       {signed?.length === 0 && (
-        <h1 className="text-white text-center mt-5">لا يوجد نماذج موقعة</h1>
+        <h3 className="text-warning py-2 text-center">لا يوجد نماذج موقعة</h3>
       )}
       {!isLoading && signed.length > 0 && (
         <>
@@ -50,17 +64,15 @@ const SignedPlan = ({ downloading, createAndDownloadPdf, refreshData}) => {
             <Table striped bordered hover>
               <thead className="bg-white">
                 <tr className="text-white">
-                  <th className="text-black">#</th>
                   <th className="text-black">رقم خطة الدرس</th>
                   <th className="text-black">التاريخ</th>
                   <th className="text-black">معاينة</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {signed.map((p) => {
+                {limitedPlans.map((p) => {
                   return (
                     <tr key={p.lesson_id}>
-                      <td></td>
                       <td className="text-black">{p.lesson_id}</td>
                       <td className="text-black">
                         {p.table_two[p.table_two.length - 1].datte}
@@ -83,6 +95,17 @@ const SignedPlan = ({ downloading, createAndDownloadPdf, refreshData}) => {
                 })}
               </tbody>
             </Table>
+            {!isLoading && (
+              <div className="d-flex justify-content-center mt-2">
+                <PaginationComponent
+                  itemsCount={allPlansCount}
+                  itemsPerPage={PlansPerPage}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  alwaysShown={false}
+                />
+              </div>
+            )}
           </>
         </>
       )}

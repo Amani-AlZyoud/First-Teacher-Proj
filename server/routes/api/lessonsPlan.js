@@ -11,7 +11,8 @@ router
 router
   .route("/:id")
   .get(verifyRoles(ROLES_LIST.Teacher), lessonsController.getLesson)
-  .put(verifyRoles(ROLES_LIST.Teacher), lessonsController.updateLesson);
+  .put(verifyRoles(ROLES_LIST.Teacher), lessonsController.updateLesson)
+  .delete(verifyRoles(ROLES_LIST.Teacher), lessonsController.deleteLesson);
 
 router
   .route("/userPlans/:id")

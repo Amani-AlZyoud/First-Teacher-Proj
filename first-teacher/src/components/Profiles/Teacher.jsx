@@ -10,6 +10,8 @@ import { Breadcrumbs, CircularProgress } from "@mui/material";
 import axios from "axios";
 import PaginationComponent from "../PaginationComponent";
 import { saveAs } from "file-saver";
+import SignedPlan from "../LessonsPlan/SignedPlan";
+import Swal from "sweetalert2";
 
 const Teacher = () => {
   const [toggle, setToggle] = useState(false);
@@ -17,6 +19,7 @@ const Teacher = () => {
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [downloading, setDownloading] = useState();
+  const [refreshData, setRefreshData] = useState(false);
 
   const [allPlansCount, setAllPlansCount] = useState(1);
   const [PlansPerPage, setPlansPerPage] = useState(3);
@@ -47,14 +50,55 @@ const Teacher = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [refreshData]);
 
   useEffect(() => {
     if (!isLoading && plan.length > 0) {
       setAllPlansCount(plan.length);
       setLimitedPlans(plan.slice(firstPlanIndex, lastPlanNumber));
     }
-  }, [isLoading, plan, firstPlanIndex, lastPlanNumber]);
+    if(plan.length === 0){
+      setLimitedPlans([]);
+    }
+  }, [isLoading, plan, firstPlanIndex, lastPlanNumber, refreshData]);
+
+  const handleDelete = (plan) => {
+    Swal.fire({
+      title: "هل انت متأكد؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FFCD29",
+      cancelButtonColor: "red",
+      confirmButtonText: "نعم",
+      cancelButtonText: "لا، إلغاء الحذف",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:5500/lessons/${plan.lesson_id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            if (response.data.success) {
+              Swal.fire({
+                title: "تم الحذف بنجاح",
+                icon: "success",
+                showConfirmButton: false,
+              });
+              setRefreshData(true);
+            }
+
+            if (response.data.message) {
+              console.log(response.data.message);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
+  };
 
   const createAndDownloadPdf = (p) => {
     setDownloading(p.lesson_id);
@@ -68,6 +112,7 @@ const Teacher = () => {
           headform: p.headform[0],
           table_one: p.table_one,
           table_two: p.table_two,
+          sign: p.sign
         },
         {
           headers: {
@@ -156,7 +201,7 @@ const Teacher = () => {
       </div>
 
       <>
-        <div className="container text-center gx-0 pe-none " id="title1">
+        <div className="container text-center gx-0" id="dash-box">
           <h1 className="text-light py-4 mt-5 text-bg-dark shadow-lg">
             النماذج المعبئة
           </h1>
@@ -203,12 +248,20 @@ const Teacher = () => {
                                 "معاينة"
                               )}
                             </button>
+                            <button
+                              type="button"
+                              className="btn btn-sm btn-outline-dark me-1 rounded"
+                              id="createPlan"
+                              onClick={() => handleDelete(p)}
+                            >
+                              حذف
+                            </button>
                             <Link to={`/plan/${p?.lesson_id}`}>
                               {" "}
                               <button
                                 type="button"
                                 id="createPlan"
-                                className="btn btn-sm btn-outline-dark rounded me-1"
+                                className="btn btn-sm btn-outline-dark rounded"
                               >
                                 تعديل
                               </button>
@@ -235,57 +288,17 @@ const Teacher = () => {
           )}
 
           {limitedPlans?.length === 0 && (
-            <h3 className="text-center py-4 mb-4">لا يوجد نماذج معبئة بعد</h3>
+            <h3 className="text-center py-3">لا يوجد نماذج معبئة بعد</h3>
           )}
         </div>
 
-        {/* <div className="container text-center gx-0 pe-none" id="title1">
-          <h1 className="text-light py-4 mt-5 text-bg-dark">
-            النماذج المدفوعة
-          </h1>
+        <div className="container text-center gx-0" id="title1">
+          <h1 className="text-light py-4 mt-5 text-bg-dark">النماذج الموقعة</h1>
+          <SignedPlan
+            createAndDownloadPdf={createAndDownloadPdf}
+            downloading={downloading}
+          />
         </div>
-        <div className="container bg-light">
-          <div
-            className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5"
-            id="paidCardsContainer"
-          >
-            <div className="col">
-              <div className="card shadow-sm my-5">
-                <img
-                  src={exam}
-                  className="bd-placeholder-img card-img-top"
-                  width={300}
-                  height={300}
-                  alt=""
-                />
-                <div className="card-body">
-                  <small className="text-body-secondary">
-                    الأحد، 12/4/2023 4:20م
-                  </small>
-                  <h4>
-                    نموذج امتحان (<span id="planNum">1</span>)
-                  </h4>
-                  <div className="d-flex justify-content-end align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-dark"
-                      >
-                        معاينة
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-dark"
-                      >
-                        تعديل
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </>
 
       <EditProfile toggle={toggle} setToggle={setToggle} />

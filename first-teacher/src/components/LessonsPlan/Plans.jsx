@@ -72,12 +72,12 @@ const Plans = () => {
         }
       )
       .then((response) => {
-        Swal.fire({
+       if(response.data.success){ Swal.fire({
           title: "تم التوقيع بنجاح",
           icon: "success",
           showConfirmButton: false,
         });
-        handleRefreshData();
+        handleRefreshData();}
       })
       .catch((err) => console.log(err.message));
   };
@@ -97,10 +97,10 @@ const Plans = () => {
         className="my-3 border-bottom border-2 border-white"
       >
         <Tab  eventKey="هذا الأسبوع" title="هذا الأسبوع">
-          <WeekPlans downloading={downloading} createAndDownloadPdf={createAndDownloadPdf} SignPlan={SignPlan} getImg={getImg}/>
+          <WeekPlans refreshData2={refreshData} downloading={downloading} createAndDownloadPdf={createAndDownloadPdf} SignPlan={SignPlan} getImg={getImg}/>
         </Tab>
         <Tab eventKey="هذا الشهر" title="هذا الشهر">
-          <MonthPlans downloading={downloading} createAndDownloadPdf={createAndDownloadPdf} SignPlan={SignPlan} getImg={getImg}/>
+          <MonthPlans refreshData2={refreshData} downloading={downloading} createAndDownloadPdf={createAndDownloadPdf} SignPlan={SignPlan} getImg={getImg}/>
         </Tab>
         <Tab  eventKey="شوهد" title="شوهد">
          <SignedPlan refreshData={refreshData} downloading={downloading} createAndDownloadPdf={createAndDownloadPdf}/> 

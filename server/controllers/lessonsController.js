@@ -51,6 +51,17 @@ const getLesson = async (req, res) => {
   }
 };
 
+const deleteLesson = async (req, res) => {
+  const { id } = req.params;
+  if (!id) return res.json({ message: "ID required." });
+
+  const lesson = await pool.query("DELETE FROM lessons WHERE lesson_id = $1", [
+    id,
+  ]);
+
+  res.json({ success: `Lesson ID ${id} Deleted.` });
+};
+
 const updateLesson = async (req, res) => {
   const id = req?.user?.user_id;
   const lesson_id = req.params.id;
@@ -89,7 +100,7 @@ const signPlan = async (req, res) => {
   const { sign } = req.body;
   const sql = "UPDATE lessons SET sign = $2 WHERE lesson_id = $1";
   const lessons = await pool.query(sql, [lesson_id, sign]);
-  res.json({ success: lessons.rows[0] });
+  res.json({ success: "Done sign" });
 };
 
 const SignedPlans = async (req, res) => {
@@ -100,7 +111,6 @@ const SignedPlans = async (req, res) => {
   res.json({ success: lessons.rows });
 };
 
-
 const WeekPlans = async (req, res) => {
   const { id } = req.params;
   const sql =
@@ -108,9 +118,7 @@ const WeekPlans = async (req, res) => {
   const lessons = await pool.query(sql, [id]);
   const weekPlans = [];
   lessons?.rows.map((p) => {
-    const result = isInCurrentWeek(
-      p.table_two[p.table_two.length - 1].datte
-    );
+    const result = isInCurrentWeek(p.table_two[p.table_two.length - 1].datte);
     if (result) {
       weekPlans.push(p);
     }
@@ -126,9 +134,7 @@ const MonthPlans = async (req, res) => {
   const lessons = await pool.query(sql, [id]);
   const monthplans = [];
   lessons?.rows.map((p) => {
-    const result = isCurrentMonth(
-      p.table_two[p.table_two.length - 1].datte
-    );
+    const result = isCurrentMonth(p.table_two[p.table_two.length - 1].datte);
     if (result) {
       monthplans.push(p);
     }
@@ -136,7 +142,6 @@ const MonthPlans = async (req, res) => {
 
   res.json({ success: monthplans });
 };
-
 
 // Return true if the plan lays in the current month
 function isCurrentMonth(datte) {
@@ -176,5 +181,6 @@ module.exports = {
   signPlan,
   SignedPlans,
   WeekPlans,
-  MonthPlans
+  MonthPlans,
+  deleteLesson,
 };

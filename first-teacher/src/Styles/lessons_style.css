@@ -78,7 +78,7 @@ input, select, #message{
   
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #000000;
+    background: #ffffff;
   }
   
   /* Handle */

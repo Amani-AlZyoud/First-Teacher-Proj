@@ -40,7 +40,7 @@ const Admin = () => {
             className="col-md-3 col-lg-2 d-md-block sidebar collapse"
             style={{ backgroundColor: "black" }}
           >
-            <img src={logo} width={200} alt="" id="logoImg" />
+            <img src={logo} className="w-lg-50 w-100" alt="" id="logoImg" />
             <div className="position-sticky pt-3 sidebar-sticky">
               <ul className="nav flex-column">
                 <li className="nav-item">
